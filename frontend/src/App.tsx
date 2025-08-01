@@ -12,7 +12,7 @@ import {
 
 import './App.module.css'
 
-const socket = io('http://localhost:3000')
+const socket = io()
 
 export const App = () => {
   const [players, setPlayers] = useState<Player[]>([])
@@ -44,17 +44,14 @@ export const App = () => {
     [],
   )
 
-  const joinGame = useCallback((event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const joinGame = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
 
-    const data = new FormData(event.currentTarget)
-    const { username } = Object.fromEntries(data.entries())
-
-    if (typeof username === 'string') {
-      setCurrentUsername(username)
-      socket.emit('send_username', username)
-    }
-  }, [])
+      socket.emit('send_username', currentUsername)
+    },
+    [currentUsername],
+  )
 
   const startGame = useCallback(() => {
     socket.emit('start_game')
@@ -62,6 +59,10 @@ export const App = () => {
 
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
+    setPlayerScores({})
+    setSelectedCategories([])
+    setCurrentAnswer(undefined)
+    setCurrentQuestion(undefined)
   }, [])
 
   useEffect(() => {
@@ -78,7 +79,16 @@ export const App = () => {
 
   useEffect(() => {
     socket.on('update_status', (newStatus: Status) => {
-      setStatus(newStatus)
+      if (typeof newStatus === 'string') {
+        setStatus(newStatus)
+        return
+      }
+
+      if ('name' in newStatus) {
+        if (newStatus.name === currentUsername) {
+          setStatus(newStatus.status)
+        }
+      }
     })
 
     socket.on('update_players', (newPlayers: Player[]) => {
@@ -99,10 +109,10 @@ export const App = () => {
     socket.on('update_categories', (newCategories: string[]) => {
       setSelectedCategories(newCategories)
     })
-  }, [])
+  }, [currentUsername])
 
   if (status === 'join') {
-    return <JoinView onJoin={joinGame} />
+    return <JoinView onJoin={joinGame} onChange={setCurrentUsername} />
   }
 
   if (status === 'lobby' || status === 'loading') {

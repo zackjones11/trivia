@@ -1,4 +1,5 @@
 import type { Question } from '../types'
+import './styles.css'
 
 type Props = {
   question: Question;
@@ -10,12 +11,12 @@ export const QuestionView = (props: Props) => {
   const { question, selectedAnswer, onSelectAnswer } = props
   return (
     <>
-      <h1>
+      <h2>
         {question.count + 1}: {question.title}
-      </h1>
-      <ul>
+      </h2>
+      <ul className="options">
         {question.options.map((option) => (
-          <div>
+          <div className="optionBox">
             <input
               checked={selectedAnswer === option}
               type="radio"

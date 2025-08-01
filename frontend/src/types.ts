@@ -4,13 +4,20 @@ export type Player = {
   score: string;
 };
 
+// TODO: Refactor status logic to be more uniform
 export type Status =
   | 'join'
   | 'lobby'
   | 'loading'
   | 'show_question'
   | 'show_correct'
-  | 'ended';
+  | 'ended' 
+  | { status: 'join'
+  | 'lobby'
+  | 'loading'
+  | 'show_question'
+  | 'show_correct'
+  | 'ended' ; name: string };
 
 export type Question = {
   count: number;

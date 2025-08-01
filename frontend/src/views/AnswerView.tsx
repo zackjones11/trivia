@@ -1,4 +1,5 @@
 import type { Question } from '../types'
+import './styles.css'
 
 type Props = {
   question: Question;
@@ -7,16 +8,17 @@ type Props = {
 
 export const AnswerView = ({ question, selectedAnswer }: Props) => {
   return (
-    <ul>
+    <>
+    <ul className='answerList'>
       {question.options.map((option) => (
         <li>
-          {option} : {selectedAnswer === option ? 'true' : 'false'}
+           {question.correct_answer.toLowerCase() === option.toLowerCase() ? '✅' : '❌'} <span>{option}</span>
         </li>
       ))}
-
-      {selectedAnswer?.toLowerCase() === question.correct_answer?.toLowerCase()
-        ? 'Nice job!'
-        : 'Better luck next time'}
     </ul>
+    <p>{selectedAnswer?.toLowerCase() === question.correct_answer?.toLowerCase()
+        ? 'Nice job! 🚀'
+        : 'Better luck next time 🙏'}</p>
+    </>
   )
 }

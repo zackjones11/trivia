@@ -6,7 +6,7 @@
   "author": "Zack Jones",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc --project ../tsconfig.json && vite build",
     "lint": "prettier --write . && eslint . --fix",
     "preview": "vite preview"
   },
