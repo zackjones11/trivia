@@ -4,6 +4,8 @@ import { Server, Socket } from 'socket.io'
 
 import { fetchQuestions } from './utils/fetchQuestions'
 
+import type { PlayerAnswers, Question, SubmitAnswer } from './types'
+
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
@@ -16,17 +18,6 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 3000
 
 const TIMER_SECONDS = 5
-
-type Question = {
-    id: number,
-    question: string,
-    options: string[],
-    correct_answer: string
-}
-
-type PlayerAnswers = Record<string, Record<string, boolean>>
-
-type SubmitAnswer = { player: string, usersAnswer: string, questionId: number }
 
 let categories: string[] = []
 let triviaQuestions: Question[] = []
