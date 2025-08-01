@@ -33,4 +33,5 @@ export type GameState = {
   availableQuestions: Question[];
   currentQuestionIndex: number;
   playerAnswers: PlayerAnswers;
+  timer: NodeJS.Timeout | undefined;
 };

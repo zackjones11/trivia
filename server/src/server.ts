@@ -17,14 +17,12 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000
 
-const questionTimer: NodeJS.Timeout | undefined = undefined
-
 const gameState = createGameState()
 
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
 
-  createHandlers(socket, io, questionTimer, gameState)
+  createHandlers(socket, io, gameState)
 })
 
 server.listen(PORT, () => {

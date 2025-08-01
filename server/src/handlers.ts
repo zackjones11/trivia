@@ -5,8 +5,12 @@ import { startGame } from './controllers/start'
 import { changeCategories, submitAnswer } from './controllers/question'
 import { restartGame } from './controllers/reset'
 
-export const createHandlers = (socket: Socket, io: Server, questionTimer: undefined | NodeJS.Timeout, gameState: GameState) => {
-socket.on('send_username', (username: string) => {
+export const createHandlers = (
+  socket: Socket,
+  io: Server,
+  gameState: GameState,
+) => {
+  socket.on('send_username', (username: string) => {
     console.log(`Player ${username} (${socket.id}) joined`)
 
     createHost(gameState, { id: socket.id })
@@ -17,7 +21,7 @@ socket.on('send_username', (username: string) => {
   })
 
   socket.on('start_game', async () => {
-    startGame(io, questionTimer, gameState)
+    startGame(io, gameState)
   })
 
   socket.on('change_category', (newCategories: string[]) => {
@@ -25,8 +29,6 @@ socket.on('send_username', (username: string) => {
   })
 
   socket.on('restart_game', () => {
-    questionTimer = undefined
-
     restartGame(io, gameState)
   })
 

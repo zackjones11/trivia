@@ -10,19 +10,19 @@ const resetTimer = (
   availableQuestions: Question[],
   triviaQuestions: Question[],
   questionCount: number,
-  questionTimer: NodeJS.Timeout | undefined,
+  timer: NodeJS.Timeout | undefined,
 ) => {
-  if (questionTimer) {
-    clearTimeout(questionTimer)
+  if (timer) {
+    clearTimeout(timer)
   }
 
-  questionTimer = setTimeout(() => {
+  timer = setTimeout(() => {
     handleQuestionTimeout(
       io,
       availableQuestions,
       triviaQuestions,
       questionCount,
-      questionTimer,
+      timer,
     )
   }, TIMER_SECONDS * 1000)
 }
@@ -32,7 +32,7 @@ export const sendQuestion = (
   availableQuestions: Question[],
   triviaQuestions: Question[],
   questionCount: number,
-  questionTimer: NodeJS.Timeout | undefined,
+  timer: NodeJS.Timeout | undefined,
 ) => {
   io.emit('update_status', 'show_question')
   io.emit(
@@ -42,13 +42,7 @@ export const sendQuestion = (
 
   questionCount++
 
-  resetTimer(
-    io,
-    availableQuestions,
-    triviaQuestions,
-    questionCount,
-    questionTimer,
-  )
+  resetTimer(io, availableQuestions, triviaQuestions, questionCount, timer)
 }
 
 const handleQuestionTimeout = (
@@ -56,7 +50,7 @@ const handleQuestionTimeout = (
   availableQuestions: Question[],
   triviaQuestions: Question[],
   questionCount: number,
-  questionTimer: NodeJS.Timeout | undefined,
+  timer: NodeJS.Timeout | undefined,
 ) => {
   io.emit('update_status', 'show_correct')
   io.emit('timer_up')
@@ -64,17 +58,11 @@ const handleQuestionTimeout = (
   setTimeout(() => {
     if (questionCount > Object.keys(triviaQuestions).length - 1) {
       io.emit('update_status', 'ended')
-      clearTimeout(questionTimer)
+      clearTimeout(timer)
       return
     }
 
-    sendQuestion(
-      io,
-      availableQuestions,
-      triviaQuestions,
-      questionCount,
-      questionTimer,
-    )
+    sendQuestion(io, availableQuestions, triviaQuestions, questionCount, timer)
   }, 2000)
 }
 
@@ -97,7 +85,11 @@ export const submitAnswer = (
   io.emit('update_player_scores', playerAnswers)
 }
 
-export const changeCategories = (io: Server, gameState: GameState, newCategories: string[]) => {
+export const changeCategories = (
+  io: Server,
+  gameState: GameState,
+  newCategories: string[],
+) => {
   gameState.settings.categories = newCategories
   io.emit('update_categories', newCategories)
 }

@@ -8,6 +8,7 @@ export const restartGame = (io: Server, gameState: GameState) => {
   gameState.currentQuestionIndex = -1
   gameState.playerAnswers = {}
   gameState.players = {}
+  gameState.timer = undefined
 
   io.emit('update_status', 'lobby')
   io.emit('update_player_scores', {})
