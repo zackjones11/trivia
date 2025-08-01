@@ -1,6 +1,7 @@
 export type Player = {
   id: string;
   username: string;
+  score: number;
 };
 
 export type Status = 'join' | 'lobby' | 'question' | 'answer' | 'end';
@@ -13,12 +14,10 @@ export type Question = {
   correctAnswer: string;
 };
 
-export type PlayerScores = Record<string, Record<string, boolean>>;
-
 export type GameState = {
+  playerId: Player['id']
   hostId: Player['id'] | null;
   players: Player[];
   viewState: Status;
   question: Question;
-  playerAnswers: PlayerScores;
 };

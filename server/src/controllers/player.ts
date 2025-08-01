@@ -4,7 +4,7 @@ export const createPlayer = (
   gameState: GameState,
   { id, username }: { id: string; username: string },
 ) => {
-  gameState.players[id] = { id, username }
+  gameState.players[id] = { id, username, score: 0 }
 }
 
 export const removePlayer = (gameState: GameState, { id }: { id: string }) => {

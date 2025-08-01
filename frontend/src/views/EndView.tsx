@@ -1,40 +1,24 @@
-import type { PlayerScores } from '../types'
+import type { Player } from '../types'
 
 type Props = {
-  scores: PlayerScores;
+  players: Player[];
   onRestart: () => void;
 };
 
-export const EndView = ({ scores, onRestart }: Props) => {
-  const scoreCount = Object.entries(scores).reduce<Record<string, number>>(
-    (acc, [user, wins]) => {
-      return {
-        ...acc,
-        [user]: Object.values(wins).filter((isWin) => isWin === true).length,
-      }
-    },
-    {},
-  )
-
-  const scoreSorted = Object.fromEntries(
-    Object.entries(scoreCount).sort((a, b) => b[1] - a[1]),
-  )
-
-  const numOfQuestions = Object.values(scores)?.[0]
-    ? Object.keys(Object.values(scores)?.[0])?.length
-    : 0
+export const EndView = ({ players, onRestart }: Props) => {
+  const playersSorted = players.sort((a, b) => a.score - b.score)
 
   return (
     <>
       <h1>Game over</h1>
 
-      <p>🎊 Well done {Object.keys(scoreSorted)[0]} 🎊</p>
+      <p>🎊 Well done {playersSorted[0].username} 🎊</p>
 
       <ul className="scores">
-        {Object.entries(scoreSorted).map(([name, scores]) => {
+        {playersSorted.map(({ username, score }) => {
           return (
             <li>
-              {name}: {scores}/{numOfQuestions}
+              {username}: {score}
             </li>
           )
         })}

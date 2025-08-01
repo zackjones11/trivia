@@ -5,12 +5,8 @@ export type Question = {
   correctAnswer: string;
 };
 
-export type PlayerAnswers = Record<string, Record<string, boolean>>;
-
 export type SubmitAnswer = {
-  player: string;
   usersAnswer: string;
-  questionId: number;
 };
 
 export type ViewState = 'lobby' | 'question' | 'answer' | 'end';
@@ -18,6 +14,7 @@ export type ViewState = 'lobby' | 'question' | 'answer' | 'end';
 export type Player = {
   id: string;
   username: string;
+  score: number;
 };
 
 export type Settings = {
@@ -41,5 +38,4 @@ export type GameState = {
   availableQuestions: Question[];
   currentQuestion: CurrentQuestion | undefined;
   questionCount: number;
-  playerAnswers: PlayerAnswers;
 };

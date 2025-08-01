@@ -4,7 +4,7 @@ import type { GameState, SubmitAnswer } from '../types'
 import { pickRandomQuestion } from './state'
 import { broadcastGameStateChange } from './broadcaster'
 
-const TIMER_SECONDS = 5
+const TIME_PER_QUESTION = 5
 
 let timer: NodeJS.Timeout | undefined = undefined
 
@@ -15,7 +15,7 @@ const resetTimer = (io: Server, gameState: GameState) => {
 
   timer = setTimeout(() => {
     handleQuestionTimeout(io, gameState)
-  }, TIMER_SECONDS * 1000)
+  }, TIME_PER_QUESTION * 1000)
 }
 
 export const sendQuestion = (io: Server, gameState: GameState) => {
@@ -50,17 +50,12 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
   }, 2000)
 }
 
-export const submitAnswer = (gameState: GameState, data: SubmitAnswer) => {
-  const { player, questionId, usersAnswer } = data
-  const { questions, playerAnswers } = gameState
-  const question = questions.find((value) => value.id === questionId)
+export const submitAnswer = (gameState: GameState, playerId: string, data: SubmitAnswer) => {
+  const question = gameState.questions.find((value) => value.id === gameState.currentQuestion?.id)
 
-  if (!playerAnswers[player]) {
-    playerAnswers[player] = {}
+  if (question?.correctAnswer === data.usersAnswer) {
+    gameState.players[playerId].score = gameState.players[playerId].score + 1
   }
-
-  const isCorrect = question?.correctAnswer === usersAnswer
-  playerAnswers[player][questionId] = isCorrect
 }
 
 export const changeCategories = (

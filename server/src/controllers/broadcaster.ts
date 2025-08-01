@@ -7,7 +7,6 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
   io.emit('game_state_changed', {
     viewState: gameState.viewState,
     players: Object.values(gameState.players),
-    playerAnswers: gameState.playerAnswers,
     hostId: gameState.hostId,
     question: currentQuestion,
   })

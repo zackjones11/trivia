@@ -35,7 +35,7 @@ export const createHandlers = (
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
-    submitAnswer(gameState, data)
+    submitAnswer(gameState, socket.id, data)
     broadcastGameStateChange(io, gameState)
   })
 

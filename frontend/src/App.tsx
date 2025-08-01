@@ -5,7 +5,6 @@ import type {
   Player,
   Status,
   Question,
-  PlayerScores,
   GameState,
 } from './types'
 import {
@@ -22,7 +21,6 @@ const socket = io('http://localhost:3000')
 
 export const App = () => {
   const [players, setPlayers] = useState<Player[]>([])
-  const [playerScores, setPlayerScores] = useState<PlayerScores>({})
   const [currentAnswer, setCurrentAnswer] = useState<string>()
   const [currentUsername, setCurrentUsername] = useState<string>()
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -64,7 +62,6 @@ export const App = () => {
 
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
-    setPlayerScores({})
     setSelectedCategories([])
     setCurrentAnswer(undefined)
     setCurrentQuestion(undefined)
@@ -72,22 +69,16 @@ export const App = () => {
 
   useEffect(() => {
     socket.on('timer_up', () => {
-      if (currentQuestion && currentUsername) {
-        socket.emit('submit_answer', {
-          questionId: currentQuestion.id,
-          usersAnswer: currentAnswer,
-          player: currentUsername,
-        })
-      }
+      socket.emit('submit_answer', { usersAnswer: currentAnswer })
     })
-  }, [currentAnswer, currentQuestion, currentUsername])
+  }, [currentAnswer])
 
   useEffect(() => {
     socket.on('game_state_changed', (gameState: GameState) => {
       setStatus(gameState.viewState)
       setPlayers(gameState.players)
-      setPlayerScores(gameState.playerAnswers)
       setCurrentQuestion(gameState.question)
+      console.log(gameState)
     })
   }, [])
 
@@ -123,6 +114,6 @@ export const App = () => {
   }
 
   if (status === 'end') {
-    return <EndView scores={playerScores} onRestart={restartGame} />
+    return <EndView players={players} onRestart={restartGame} />
   }
 }
