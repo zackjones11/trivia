@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
-import type {
-  Player,
-  Status,
-  Question,
-  GameState,
-} from './types'
+import type { Player, Status, Question, GameState } from './types'
 import {
   JoinView,
   LobbyView,

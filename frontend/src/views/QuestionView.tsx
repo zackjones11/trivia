@@ -11,9 +11,7 @@ export const QuestionView = (props: Props) => {
   const { question, selectedAnswer, onSelectAnswer } = props
   return (
     <>
-      <h2>
-        {question.count + 1}: {question.title}
-      </h2>
+      <h2>{question.title}</h2>
       <ul className="options">
         {question.options.map((option) => (
           <div className="optionBox">

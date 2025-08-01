@@ -7,7 +7,6 @@ export type Player = {
 export type Status = 'join' | 'lobby' | 'question' | 'answer' | 'end';
 
 export type Question = {
-  count: number;
   id: string;
   title: string;
   options: string[];
@@ -15,7 +14,7 @@ export type Question = {
 };
 
 export type GameState = {
-  playerId: Player['id']
+  playerId: Player['id'];
   hostId: Player['id'] | null;
   players: Player[];
   viewState: Status;

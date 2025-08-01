@@ -1,6 +1,6 @@
 export type Question = {
   id: number;
-  question: string;
+  title: string;
   options: string[];
   correctAnswer: string;
 };
@@ -21,21 +21,12 @@ export type Settings = {
   categories: string[];
 };
 
-type CurrentQuestion = {
-  count: number;
-  id: number;
-  title: string;
-  options: string[];
-  correctAnswer: string;
-};
-
 export type GameState = {
   hostId: Player['id'] | null;
   viewState: ViewState;
   players: Record<Player['id'], Player>;
   settings: Settings;
   questions: Question[];
-  availableQuestions: Question[];
-  currentQuestion: CurrentQuestion | undefined;
+  currentQuestionIndex: number;
   questionCount: number;
 };

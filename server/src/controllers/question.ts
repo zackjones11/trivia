@@ -1,7 +1,6 @@
 import type { Server } from 'socket.io'
 import type { GameState, SubmitAnswer } from '../types'
 
-import { pickRandomQuestion } from './state'
 import { broadcastGameStateChange } from './broadcaster'
 
 const TIME_PER_QUESTION = 5
@@ -20,10 +19,7 @@ const resetTimer = (io: Server, gameState: GameState) => {
 
 export const sendQuestion = (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
-  gameState.currentQuestion = pickRandomQuestion(
-    gameState.availableQuestions,
-    gameState.questionCount,
-  )
+  gameState.currentQuestionIndex++
   gameState.questionCount++
 
   broadcastGameStateChange(io, gameState)
@@ -50,10 +46,14 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
   }, 2000)
 }
 
-export const submitAnswer = (gameState: GameState, playerId: string, data: SubmitAnswer) => {
-  const question = gameState.questions.find((value) => value.id === gameState.currentQuestion?.id)
+export const submitAnswer = (
+  gameState: GameState,
+  playerId: string,
+  data: SubmitAnswer,
+) => {
+  const currentQuestion = gameState.questions[gameState.currentQuestionIndex]
 
-  if (question?.correctAnswer === data.usersAnswer) {
+  if (currentQuestion?.correctAnswer === data.usersAnswer) {
     gameState.players[playerId].score = gameState.players[playerId].score + 1
   }
 }

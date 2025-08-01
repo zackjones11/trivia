@@ -2,6 +2,8 @@
 // const API_ENDPOINT =
 //   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
 
+import type { Question } from '../types'
+
 // const NUMBER_OF_QUESTIONS = 2
 
 // const getPrompt = (numberOfQuestions: number, category: string) => {
@@ -11,20 +13,22 @@
 //     Present the output in a structured JSON array of objects, where each object has:
 
 //     - "id": number (1, 2, 3, 4)
-//     - "question": string
-//     - "options": array with string values
-//     - "correctAnswer": the correct option value
+//     - "title": string ("What is the capital of England?")
+//     - "options": array with string values ([ "Berlin", "Madrid", "Paris", "London" ])
+//     - "correctAnswer": the correct option value ("London")
 
 //     Example structure for one question:
 //     {
 //       "id": 1,
-//       "question": "What is the capital of England?",
+//       "title": "What is the capital of England?",
 //       "options": [ "Berlin", "Madrid", "Paris", "London" ],
 //       "correctAnswer": "London"
 //     }`
 // }
 
-export const fetchQuestions = async (categories: string[]) => {
+export const fetchQuestions = async (
+  categories: string[],
+): Promise<Question[]> => {
   // const text = getPrompt(
   //   NUMBER_OF_QUESTIONS,
   //   categories.join(', ').replaceAll('_', ' '),
@@ -64,18 +68,18 @@ export const fetchQuestions = async (categories: string[]) => {
 
   // return JSON.parse(data.candidates[0].content.parts[0].text)
 
-  return [
+  return Promise.resolve([
     {
       id: 1,
-      question: 'What is the capital of England?',
+      title: 'What is the capital of England?',
       options: ['Berlin', 'Madrid', 'Paris', 'London'],
       correctAnswer: 'London',
     },
     {
-      'id': 2,
-      'question': 'What is the capital of Germany?',
-      'options': [ 'Berlin', 'Madrid', 'Paris', 'London' ],
-      'correctAnswer': 'Berlin'
-    }
-  ]
+      id: 2,
+      title: 'What is the capital of Germany?',
+      options: ['Berlin', 'Madrid', 'Paris', 'London'],
+      correctAnswer: 'Berlin',
+    },
+  ])
 }

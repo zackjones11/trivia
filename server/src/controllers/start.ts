@@ -5,9 +5,7 @@ import { sendQuestion } from './question'
 
 export const startGame = async (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
-
   gameState.questions = await fetchQuestions(gameState.settings.categories)
-  gameState.availableQuestions = [...gameState.questions]
 
   sendQuestion(io, gameState)
 }
