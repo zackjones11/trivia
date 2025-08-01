@@ -11,13 +11,17 @@ export type Status =
   | 'loading'
   | 'show_question'
   | 'show_correct'
-  | 'ended' 
-  | { status: 'join'
-  | 'lobby'
-  | 'loading'
-  | 'show_question'
-  | 'show_correct'
-  | 'ended' ; name: string };
+  | 'ended'
+  | {
+      status:
+        | 'join'
+        | 'lobby'
+        | 'loading'
+        | 'show_question'
+        | 'show_correct'
+        | 'ended';
+      name: string;
+    };
 
 export type Question = {
   count: number;

@@ -1,0 +1,28 @@
+{
+  "name": "trivia",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/zackjones11/trivia#readme",
+  "bugs": {
+    "url": "https://github.com/zackjones11/trivia/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zackjones11/trivia.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "lint": "prettier --write . && eslint --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.30.1",
+    "eslint": "9.30.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-react-refresh": "0.4.20",
+    "prettier": "3.6.2",
+    "typescript-eslint": "8.35.1"
+  }
+}

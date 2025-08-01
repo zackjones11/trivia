@@ -374,20 +374,20 @@ export const LobbyView = (props: Props) => {
         id="categories"
         multiple
         onChange={onChangeCategory}
-        style={{height: 500}}
+        style={{ height: 500 }}
       >
         {categoriesData.map((categoryGroup) => (
-            <optgroup key={categoryGroup.label} label={categoryGroup.label}>
-                {categoryGroup.options.map((option) => (
-                    <option
-                        key={option.value}
-                        value={option.value}
-                        selected={selectedCategories.includes(option.value)}
-                    >
-                        {option.text}
-                    </option>
-                ))}
-            </optgroup>
+          <optgroup key={categoryGroup.label} label={categoryGroup.label}>
+            {categoryGroup.options.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                selected={selectedCategories.includes(option.value)}
+              >
+                {option.text}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
 
