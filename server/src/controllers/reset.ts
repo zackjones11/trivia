@@ -1,7 +1,6 @@
 import type { Server } from 'socket.io'
 import type { GameState } from '../types'
 
-
 export const restartGame = (io: Server, gameState: GameState) => {
   gameState.viewState = 'lobby'
   gameState.questions = []

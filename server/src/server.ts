@@ -2,13 +2,12 @@ import express from 'express'
 import http from 'http'
 import { Server, Socket } from 'socket.io'
 
-import { fetchQuestions } from './api/fetchQuestions'
-import { sendQuestion } from './controllers/question'
 import { createGameState } from './controllers/state'
 
 import type { SubmitAnswer } from './types'
 import { createHost, createPlayer, removePlayer } from './controllers/player'
 import { restartGame } from './controllers/reset'
+import { startGame } from './controllers/start'
 
 const app = express()
 const server = http.createServer(app)
@@ -27,8 +26,6 @@ const gameState = createGameState()
 let {
   settings: { categories },
   questions,
-  availableQuestions,
-  currentQuestionIndex,
   players,
   playerAnswers,
 } = gameState
@@ -47,18 +44,7 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('start_game', async () => {
-    io.emit('update_status', 'loading')
-    questions = await fetchQuestions(categories)
-    availableQuestions = [...questions]
-    io.emit('update_status', 'show_question')
-
-    sendQuestion(
-      io,
-      availableQuestions,
-      questions,
-      currentQuestionIndex,
-      questionTimer,
-    )
+    startGame(io, questionTimer, gameState)
   })
 
   socket.on('change_category', (newCategories: string[]) => {
@@ -73,9 +59,7 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
-    const question = questions.find(
-      (value) => value.id === data.questionId,
-    )
+    const question = questions.find((value) => value.id === data.questionId)
 
     if (!playerAnswers[data.player]) {
       playerAnswers[data.player] = {}
@@ -91,7 +75,7 @@ io.on('connection', (socket: Socket) => {
     console.log(`User disconnected: ${socket.id}`)
 
     removePlayer(gameState, { id: socket.id })
-    
+
     io.emit('update_players', players)
     io.emit('update_player_scores', playerAnswers)
   })
