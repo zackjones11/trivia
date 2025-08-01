@@ -3,7 +3,8 @@ import http from 'http'
 import { Server, Socket } from 'socket.io'
 
 import { fetchQuestions } from './game/fetchQuestions'
-import { pickRandomQuestion, createGameState } from './game/state'
+import { sendQuestion } from './game/controller'
+import { createGameState } from './game/state'
 
 import type { SubmitAnswer } from './types'
 
@@ -18,8 +19,6 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000
 
-const TIMER_SECONDS = 5
-
 let {
   categories,
   triviaQuestions,
@@ -30,38 +29,6 @@ let {
   playerAnswers,
   questionTimer,
 } = createGameState()
-
-const sendQuestion = () => {
-  io.emit('update_status', 'show_question')
-  io.emit('new_question', pickRandomQuestion(availableQuestions, questionCount))
-
-  questionCount++
-
-  resetTimer()
-}
-
-const resetTimer = () => {
-  if (questionTimer) {
-    clearTimeout(questionTimer)
-  }
-
-  questionTimer = setTimeout(handleQuestionTimeout, TIMER_SECONDS * 1000)
-}
-
-const handleQuestionTimeout = () => {
-  io.emit('update_status', 'show_correct')
-  io.emit('timer_up')
-
-  setTimeout(() => {
-    if (questionCount > Object.keys(triviaQuestions).length - 1) {
-      io.emit('update_status', 'ended')
-      clearTimeout(questionTimer)
-      return
-    }
-
-    sendQuestion()
-  }, 2000)
-}
 
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
@@ -81,7 +48,14 @@ io.on('connection', (socket: Socket) => {
     triviaQuestions = await fetchQuestions(categories)
     availableQuestions = [...triviaQuestions]
     io.emit('update_status', 'show_question')
-    sendQuestion()
+
+    sendQuestion(
+      io,
+      availableQuestions,
+      triviaQuestions,
+      questionCount,
+      questionTimer,
+    )
   })
 
   socket.on('change_category', (newCategories: string[]) => {
