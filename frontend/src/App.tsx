@@ -64,7 +64,6 @@ export const App = () => {
     setCurrentQuestion(undefined)
   }, [])
 
-
   useEffect(() => {
     socket.on('game_state_changed', (gameState: GameState) => {
       setStatus(gameState.viewState)

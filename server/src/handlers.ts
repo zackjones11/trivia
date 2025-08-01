@@ -5,6 +5,7 @@ import { startGame } from './controllers/start'
 import { changeCategories, submitAnswer } from './controllers/question'
 import { restartGame } from './controllers/reset'
 import { broadcastGameStateChange } from './controllers/broadcaster'
+import { isLastPlayer } from './controllers/state'
 
 export const createHandlers = (
   socket: Socket,
@@ -43,6 +44,12 @@ export const createHandlers = (
     console.log(`User disconnected: ${socket.id}`)
 
     removePlayer(gameState, { id: socket.id })
+
+    if (isLastPlayer(gameState)) {
+      restartGame(gameState)
+      return
+    }
+
     broadcastGameStateChange(io, gameState)
   })
 }

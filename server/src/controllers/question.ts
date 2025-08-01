@@ -40,7 +40,10 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
   }
 
   setTimeout(() => {
-    if (gameState.currentQuestionIndex === Object.keys(gameState.questions).length - 1) {
+    if (
+      gameState.currentQuestionIndex ===
+      Object.keys(gameState.questions).length - 1
+    ) {
       gameState.viewState = 'end'
       broadcastGameStateChange(io, gameState)
       clearTimeout(timer)
