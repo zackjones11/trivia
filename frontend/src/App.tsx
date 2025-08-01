@@ -12,7 +12,7 @@ import {
 
 import './App.module.css'
 
-const socket = io()
+const socket = io('http://localhost:3000')
 
 export const App = () => {
   const [players, setPlayers] = useState<Player[]>([])
