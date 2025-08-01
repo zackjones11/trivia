@@ -8,6 +8,7 @@ import type { SubmitAnswer } from './types'
 import { createHost, createPlayer, removePlayer } from './controllers/player'
 import { restartGame } from './controllers/reset'
 import { startGame } from './controllers/start'
+import { submitAnswer } from './controllers/question'
 
 const app = express()
 const server = http.createServer(app)
@@ -25,9 +26,7 @@ let questionTimer: NodeJS.Timeout | undefined = undefined
 const gameState = createGameState()
 let {
   settings: { categories },
-  questions,
   players,
-  playerAnswers,
 } = gameState
 
 io.on('connection', (socket: Socket) => {
@@ -59,25 +58,13 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
-    const question = questions.find((value) => value.id === data.questionId)
-
-    if (!playerAnswers[data.player]) {
-      playerAnswers[data.player] = {}
-    }
-
-    const isCorrect = question?.correct_answer === data.usersAnswer
-    playerAnswers[data.player][data.questionId] = isCorrect
-
-    io.emit('update_player_scores', playerAnswers)
+    submitAnswer(io, gameState, data)
   })
 
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`)
 
-    removePlayer(gameState, { id: socket.id })
-
-    io.emit('update_players', players)
-    io.emit('update_player_scores', playerAnswers)
+    removePlayer(io, gameState, { id: socket.id })
   })
 })
 

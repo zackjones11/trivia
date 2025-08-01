@@ -1,5 +1,5 @@
 import type { Server } from 'socket.io'
-import type { Question } from '../types'
+import type { GameState, Question, SubmitAnswer } from '../types'
 
 import { pickRandomQuestion } from './state'
 
@@ -76,4 +76,23 @@ const handleQuestionTimeout = (
       questionTimer,
     )
   }, 2000)
+}
+
+export const submitAnswer = (
+  io: Server,
+  gameState: GameState,
+  data: SubmitAnswer,
+) => {
+  const { player, questionId, usersAnswer } = data
+  const { questions, playerAnswers } = gameState
+  const question = questions.find((value) => value.id === questionId)
+
+  if (!playerAnswers[player]) {
+    playerAnswers[player] = {}
+  }
+
+  const isCorrect = question?.correct_answer === usersAnswer
+  playerAnswers[player][questionId] = isCorrect
+
+  io.emit('update_player_scores', playerAnswers)
 }
