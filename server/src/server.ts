@@ -3,12 +3,12 @@ import http from 'http'
 import { Server, Socket } from 'socket.io'
 
 import { fetchQuestions } from './api/fetchQuestions'
-import { sendQuestion } from './game/controller'
-import { createGameState } from './game/state'
+import { sendQuestion } from './controllers/question'
+import { createGameState } from './controllers/state'
 
 import type { SubmitAnswer } from './types'
-import { createHost, createPlayer, removePlayer } from './game/player'
-import { restartGame } from './game/reset'
+import { createHost, createPlayer, removePlayer } from './controllers/player'
+import { restartGame } from './controllers/reset'
 
 const app = express()
 const server = http.createServer(app)
