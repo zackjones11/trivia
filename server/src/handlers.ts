@@ -1,6 +1,6 @@
 import type { Server, Socket } from 'socket.io'
 import { createHost, createPlayer, removePlayer } from './controllers/player'
-import type { GameState, SubmitAnswer } from './types'
+import type { GameState } from './types'
 import { startGame } from './controllers/start'
 import { changeCategories, submitAnswer } from './controllers/question'
 import { restartGame } from './controllers/reset'
@@ -34,8 +34,8 @@ export const createHandlers = (
     broadcastGameStateChange(io, gameState)
   })
 
-  socket.on('submit_answer', (data: SubmitAnswer) => {
-    submitAnswer(gameState, socket.id, data)
+  socket.on('submit_answer', (usersAnswer: string) => {
+    submitAnswer(gameState, socket.id, usersAnswer)
     broadcastGameStateChange(io, gameState)
   })
 

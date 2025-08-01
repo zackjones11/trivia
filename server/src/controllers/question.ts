@@ -1,5 +1,5 @@
 import type { Server } from 'socket.io'
-import type { GameState, SubmitAnswer } from '../types'
+import type { GameState } from '../types'
 
 import { broadcastGameStateChange } from './broadcaster'
 
@@ -19,6 +19,7 @@ const resetTimer = (io: Server, gameState: GameState) => {
 
 export const sendQuestion = (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
+  gameState.answerSubmissions = {}
   gameState.currentQuestionIndex++
 
   broadcastGameStateChange(io, gameState)
@@ -29,7 +30,14 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
   gameState.viewState = 'answer'
   broadcastGameStateChange(io, gameState)
 
-  io.emit('timer_up')
+  const { correctAnswer } = gameState.questions[gameState.currentQuestionIndex]
+
+  for (const [id, answer] of Object.entries(gameState.answerSubmissions)) {
+    console.log('answered', id, answer)
+    if (answer === correctAnswer) {
+      gameState.players[id].score += 1
+    }
+  }
 
   setTimeout(() => {
     if (gameState.currentQuestionIndex === Object.keys(gameState.questions).length - 1) {
@@ -46,13 +54,9 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
 export const submitAnswer = (
   gameState: GameState,
   playerId: string,
-  data: SubmitAnswer,
+  usersAnswer: string,
 ) => {
-  const currentQuestion = gameState.questions[gameState.currentQuestionIndex]
-
-  if (currentQuestion?.correctAnswer === data.usersAnswer) {
-    gameState.players[playerId].score = gameState.players[playerId].score + 1
-  }
+  gameState.answerSubmissions[playerId] = usersAnswer
 }
 
 export const changeCategories = (

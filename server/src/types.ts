@@ -5,10 +5,6 @@ export type Question = {
   correctAnswer: string;
 };
 
-export type SubmitAnswer = {
-  usersAnswer: string;
-};
-
 export type ViewState = 'lobby' | 'question' | 'answer' | 'end';
 
 export type Player = {
@@ -25,6 +21,7 @@ export type GameState = {
   hostId: Player['id'] | null;
   viewState: ViewState;
   players: Record<Player['id'], Player>;
+  answerSubmissions: Record<Player['id'], string>;
   settings: Settings;
   questions: Question[];
   currentQuestionIndex: number;

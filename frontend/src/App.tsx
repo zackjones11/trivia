@@ -21,6 +21,7 @@ export const App = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [status, setStatus] = useState<Status>('join')
   const [currentQuestion, setCurrentQuestion] = useState<Question>()
+
   const changeCategory = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedCategories = Array.from(
@@ -37,6 +38,7 @@ export const App = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newAnswer = event.currentTarget.value
 
+      socket.emit('submit_answer', newAnswer)
       setCurrentAnswer(newAnswer)
     },
     [],
@@ -62,11 +64,6 @@ export const App = () => {
     setCurrentQuestion(undefined)
   }, [])
 
-  useEffect(() => {
-    socket.on('timer_up', () => {
-      socket.emit('submit_answer', { usersAnswer: currentAnswer })
-    })
-  }, [currentAnswer])
 
   useEffect(() => {
     socket.on('game_state_changed', (gameState: GameState) => {
