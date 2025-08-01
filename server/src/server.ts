@@ -8,7 +8,7 @@ import type { SubmitAnswer } from './types'
 import { createHost, createPlayer, removePlayer } from './controllers/player'
 import { restartGame } from './controllers/reset'
 import { startGame } from './controllers/start'
-import { submitAnswer } from './controllers/question'
+import { changeCategories, submitAnswer } from './controllers/question'
 
 const app = express()
 const server = http.createServer(app)
@@ -24,8 +24,7 @@ const PORT = process.env.PORT || 3000
 let questionTimer: NodeJS.Timeout | undefined = undefined
 
 const gameState = createGameState()
-let {
-  settings: { categories },
+const {
   players,
 } = gameState
 
@@ -47,8 +46,7 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('change_category', (newCategories: string[]) => {
-    categories = newCategories
-    io.emit('update_categories', newCategories)
+    changeCategories(io, gameState, newCategories)
   })
 
   socket.on('restart_game', () => {

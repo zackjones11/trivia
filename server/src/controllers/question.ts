@@ -96,3 +96,8 @@ export const submitAnswer = (
 
   io.emit('update_player_scores', playerAnswers)
 }
+
+export const changeCategories = (io: Server, gameState: GameState, newCategories: string[]) => {
+  gameState.settings.categories = newCategories
+  io.emit('update_categories', newCategories)
+}
