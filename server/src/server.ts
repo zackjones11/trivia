@@ -2,7 +2,7 @@ import express from 'express'
 import http from 'http'
 import { Server, Socket } from 'socket.io'
 
-import { fetchQuestions } from './game/fetchQuestions'
+import { fetchQuestions } from './api/fetchQuestions'
 import { sendQuestion } from './game/controller'
 import { createGameState } from './game/state'
 
@@ -19,41 +19,40 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000
 
+let questionTimer: NodeJS.Timeout | undefined = undefined
+
 let {
-  categories,
-  triviaQuestions,
+  settings: { categories },
+  questions,
   availableQuestions,
-  questionCount,
+  currentQuestionIndex,
   players,
-  socketIdToName,
   playerAnswers,
-  questionTimer,
 } = createGameState()
 
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
 
-  socket.on('send_username', (name: string) => {
-    players.set(name, { id: socket.id, name })
-    socketIdToName.set(socket.id, name)
-    console.log(`Player ${name} (${socket.id}) joined`)
+  socket.on('send_username', (username: string) => {
+    players[socket.id] = { id: socket.id, username }
 
-    const playerList = Array.from(players.values())
-    io.emit('update_players', playerList)
-    io.emit('update_status', { name, status: 'lobby' })
+    console.log(`Player ${username} (${socket.id}) joined`)
+
+    io.emit('update_players', players)
+    io.emit('update_status', { name: username, status: 'lobby' })
   })
 
   socket.on('start_game', async () => {
     io.emit('update_status', 'loading')
-    triviaQuestions = await fetchQuestions(categories)
-    availableQuestions = [...triviaQuestions]
+    questions = await fetchQuestions(categories)
+    availableQuestions = [...questions]
     io.emit('update_status', 'show_question')
 
     sendQuestion(
       io,
       availableQuestions,
-      triviaQuestions,
-      questionCount,
+      questions,
+      currentQuestionIndex,
       questionTimer,
     )
   })
@@ -64,11 +63,11 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('restart_game', () => {
-    triviaQuestions = []
+    questions = []
     availableQuestions = []
-    questionCount = 0
+    currentQuestionIndex = 0
     questionTimer = undefined
-    players = new Map()
+    players = {}
     playerAnswers = {}
 
     io.emit('update_status', 'lobby')
@@ -76,7 +75,7 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
-    const question = triviaQuestions.find(
+    const question = questions.find(
       (value) => value.id === data.questionId,
     )
 
@@ -93,18 +92,12 @@ io.on('connection', (socket: Socket) => {
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`)
 
-    const name = socketIdToName.get(socket.id)
+    const { username } = players[socket.id]
 
-    if (name) {
-      players.delete(name)
-      socketIdToName.delete(socket.id)
-      console.log(`Removed player: ${name}, ${players}`)
-    }
+    delete playerAnswers[username]
+    delete players[socket.id]
 
-    const playerList = Array.from(players.values())
-    delete playerAnswers[name]
-
-    io.emit('update_players', playerList)
+    io.emit('update_players', players)
     io.emit('update_player_scores', playerAnswers)
   })
 })

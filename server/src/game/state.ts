@@ -1,37 +1,17 @@
-import type { PlayerAnswers, Question } from '../types'
+import type { GameState, Question } from '../types'
 
-type GameState = {
-  categories: string[];
-  triviaQuestions: Question[];
-  availableQuestions: Question[];
-  questionCount: number;
-  players: Map<any, any>;
-  socketIdToName: Map<any, any>;
-  playerAnswers: PlayerAnswers;
-  questionTimer: NodeJS.Timeout | undefined;
-};
-
-export const createGameState = (): GameState => {
-  const categories: string[] = []
-  const triviaQuestions: Question[] = []
-  const availableQuestions = [...triviaQuestions]
-  const questionCount = 0
-  const players = new Map()
-  const socketIdToName = new Map()
-  const playerAnswers: PlayerAnswers = {}
-  const questionTimer: NodeJS.Timeout | undefined = undefined
-
-  return {
-    categories,
-    triviaQuestions,
-    availableQuestions,
-    questionCount,
-    players,
-    socketIdToName,
-    playerAnswers,
-    questionTimer,
-  }
-}
+export const createGameState = (): GameState => ({
+  hostId: null,
+  viewState: 'lobby',
+  players: {},
+  settings: {
+    categories: [],
+  },
+  questions: [],
+  availableQuestions: [],
+  currentQuestionIndex: -1,
+  playerAnswers: {},
+})
 
 export const pickRandomQuestion = (
   availableQuestions: Question[],
