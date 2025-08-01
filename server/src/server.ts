@@ -8,6 +8,7 @@ import { createGameState } from './game/state'
 
 import type { SubmitAnswer } from './types'
 import { createHost, createPlayer, removePlayer } from './game/player'
+import { restartGame } from './game/reset'
 
 const app = express()
 const server = http.createServer(app)
@@ -66,15 +67,9 @@ io.on('connection', (socket: Socket) => {
   })
 
   socket.on('restart_game', () => {
-    questions = []
-    availableQuestions = []
-    currentQuestionIndex = 0
     questionTimer = undefined
-    players = {}
-    playerAnswers = {}
 
-    io.emit('update_status', 'lobby')
-    io.emit('update_player_scores', {})
+    restartGame(io, gameState)
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
