@@ -1,34 +1,24 @@
 export type Player = {
   id: string;
-  name: string;
-  score: string;
+  username: string;
 };
 
-// TODO: Refactor status logic to be more uniform
-export type Status =
-  | 'join'
-  | 'lobby'
-  | 'loading'
-  | 'show_question'
-  | 'show_correct'
-  | 'ended'
-  | {
-      status:
-        | 'join'
-        | 'lobby'
-        | 'loading'
-        | 'show_question'
-        | 'show_correct'
-        | 'ended';
-      name: string;
-    };
+export type Status = 'join' | 'lobby' | 'question' | 'answer' | 'end';
 
 export type Question = {
   count: number;
   id: string;
   title: string;
   options: string[];
-  correct_answer: string;
+  correctAnswer: string;
 };
 
 export type PlayerScores = Record<string, Record<string, boolean>>;
+
+export type GameState = {
+  hostId: Player['id'] | null;
+  players: Player[];
+  viewState: Status;
+  question: Question;
+  playerAnswers: PlayerScores;
+};

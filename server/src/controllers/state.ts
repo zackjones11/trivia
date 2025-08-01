@@ -9,8 +9,9 @@ export const createGameState = (): GameState => ({
   },
   questions: [],
   availableQuestions: [],
-  currentQuestionIndex: -1,
+  currentQuestion: undefined,
   playerAnswers: {},
+  questionCount: 0,
 })
 
 export const pickRandomQuestion = (
@@ -19,7 +20,7 @@ export const pickRandomQuestion = (
 ) => {
   const randomIndex = Math.floor(Math.random() * availableQuestions.length)
   const questionObj = availableQuestions.splice(randomIndex, 1)[0]
-  const currentQuestionCorrectAnswer = questionObj.correct_answer
+  const currentQuestionCorrectAnswer = questionObj.correctAnswer
     .toLowerCase()
     .trim()
 
@@ -28,6 +29,6 @@ export const pickRandomQuestion = (
     id: questionObj.id,
     title: questionObj.question,
     options: questionObj.options,
-    correct_answer: currentQuestionCorrectAnswer,
+    correctAnswer: currentQuestionCorrectAnswer,
   }
 }

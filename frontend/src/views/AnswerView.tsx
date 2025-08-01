@@ -12,7 +12,7 @@ export const AnswerView = ({ question, selectedAnswer }: Props) => {
       <ul className="answerList">
         {question.options.map((option) => (
           <li>
-            {question.correct_answer.toLowerCase() === option.toLowerCase()
+            {question.correctAnswer.toLowerCase() === option.toLowerCase()
               ? '✅'
               : '❌'}{' '}
             <span>{option}</span>
@@ -20,8 +20,7 @@ export const AnswerView = ({ question, selectedAnswer }: Props) => {
         ))}
       </ul>
       <p>
-        {selectedAnswer?.toLowerCase() ===
-        question.correct_answer?.toLowerCase()
+        {selectedAnswer?.toLowerCase() === question.correctAnswer?.toLowerCase()
           ? 'Nice job! 🚀'
           : 'Better luck next time 🙏'}
       </p>

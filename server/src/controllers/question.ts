@@ -1,76 +1,56 @@
 import type { Server } from 'socket.io'
-import type { GameState, Question, SubmitAnswer } from '../types'
+import type { GameState, SubmitAnswer } from '../types'
 
 import { pickRandomQuestion } from './state'
+import { broadcastGameStateChange } from './broadcaster'
 
 const TIMER_SECONDS = 5
 
-const resetTimer = (
-  io: Server,
-  availableQuestions: Question[],
-  triviaQuestions: Question[],
-  questionCount: number,
-  timer: NodeJS.Timeout | undefined,
-) => {
+let timer: NodeJS.Timeout | undefined = undefined
+
+const resetTimer = (io: Server, gameState: GameState) => {
   if (timer) {
     clearTimeout(timer)
   }
 
   timer = setTimeout(() => {
-    handleQuestionTimeout(
-      io,
-      availableQuestions,
-      triviaQuestions,
-      questionCount,
-      timer,
-    )
+    handleQuestionTimeout(io, gameState)
   }, TIMER_SECONDS * 1000)
 }
 
-export const sendQuestion = (
-  io: Server,
-  availableQuestions: Question[],
-  triviaQuestions: Question[],
-  questionCount: number,
-  timer: NodeJS.Timeout | undefined,
-) => {
-  io.emit('update_status', 'show_question')
-  io.emit(
-    'new_question',
-    pickRandomQuestion(availableQuestions, questionCount),
+export const sendQuestion = (io: Server, gameState: GameState) => {
+  gameState.viewState = 'question'
+  gameState.currentQuestion = pickRandomQuestion(
+    gameState.availableQuestions,
+    gameState.questionCount,
   )
+  gameState.questionCount++
 
-  questionCount++
-
-  resetTimer(io, availableQuestions, triviaQuestions, questionCount, timer)
+  broadcastGameStateChange(io, gameState)
+  resetTimer(io, gameState)
 }
 
-const handleQuestionTimeout = (
-  io: Server,
-  availableQuestions: Question[],
-  triviaQuestions: Question[],
-  questionCount: number,
-  timer: NodeJS.Timeout | undefined,
-) => {
-  io.emit('update_status', 'show_correct')
+const handleQuestionTimeout = (io: Server, gameState: GameState) => {
+  gameState.viewState = 'answer'
+  broadcastGameStateChange(io, gameState)
+
   io.emit('timer_up')
 
+  const { questionCount, questions } = gameState
+
   setTimeout(() => {
-    if (questionCount > Object.keys(triviaQuestions).length - 1) {
-      io.emit('update_status', 'ended')
+    if (questionCount > Object.keys(questions).length - 1) {
+      gameState.viewState = 'end'
+      broadcastGameStateChange(io, gameState)
       clearTimeout(timer)
       return
     }
 
-    sendQuestion(io, availableQuestions, triviaQuestions, questionCount, timer)
+    sendQuestion(io, gameState)
   }, 2000)
 }
 
-export const submitAnswer = (
-  io: Server,
-  gameState: GameState,
-  data: SubmitAnswer,
-) => {
+export const submitAnswer = (gameState: GameState, data: SubmitAnswer) => {
   const { player, questionId, usersAnswer } = data
   const { questions, playerAnswers } = gameState
   const question = questions.find((value) => value.id === questionId)
@@ -79,17 +59,13 @@ export const submitAnswer = (
     playerAnswers[player] = {}
   }
 
-  const isCorrect = question?.correct_answer === usersAnswer
+  const isCorrect = question?.correctAnswer === usersAnswer
   playerAnswers[player][questionId] = isCorrect
-
-  io.emit('update_player_scores', playerAnswers)
 }
 
 export const changeCategories = (
-  io: Server,
   gameState: GameState,
   newCategories: string[],
 ) => {
   gameState.settings.categories = newCategories
-  io.emit('update_categories', newCategories)
 }

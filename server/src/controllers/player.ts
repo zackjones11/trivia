@@ -1,4 +1,3 @@
-import type { Server } from 'socket.io'
 import type { GameState } from '../types'
 
 export const createPlayer = (
@@ -8,11 +7,7 @@ export const createPlayer = (
   gameState.players[id] = { id, username }
 }
 
-export const removePlayer = (
-  io: Server,
-  gameState: GameState,
-  { id }: { id: string },
-) => {
+export const removePlayer = (gameState: GameState, { id }: { id: string }) => {
   delete gameState.players[id]
 
   const wasHost = id === gameState.hostId
@@ -20,9 +15,6 @@ export const removePlayer = (
   if (wasHost) {
     gameState.hostId = Object.keys(gameState.players)[0]
   }
-
-  io.emit('update_players', gameState.players)
-  io.emit('update_player_scores', gameState.playerAnswers)
 }
 
 export const createHost = (gameState: GameState, { id }: { id: string }) => {

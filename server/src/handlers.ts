@@ -4,6 +4,7 @@ import type { GameState, SubmitAnswer } from './types'
 import { startGame } from './controllers/start'
 import { changeCategories, submitAnswer } from './controllers/question'
 import { restartGame } from './controllers/reset'
+import { broadcastGameStateChange } from './controllers/broadcaster'
 
 export const createHandlers = (
   socket: Socket,
@@ -16,8 +17,7 @@ export const createHandlers = (
     createHost(gameState, { id: socket.id })
     createPlayer(gameState, { id: socket.id, username })
 
-    io.emit('update_players', gameState.players)
-    io.emit('update_status', { name: username, status: 'lobby' })
+    broadcastGameStateChange(io, gameState)
   })
 
   socket.on('start_game', async () => {
@@ -25,20 +25,24 @@ export const createHandlers = (
   })
 
   socket.on('change_category', (newCategories: string[]) => {
-    changeCategories(io, gameState, newCategories)
+    changeCategories(gameState, newCategories)
+    broadcastGameStateChange(io, gameState)
   })
 
   socket.on('restart_game', () => {
-    restartGame(io, gameState)
+    restartGame(gameState)
+    broadcastGameStateChange(io, gameState)
   })
 
   socket.on('submit_answer', (data: SubmitAnswer) => {
-    submitAnswer(io, gameState, data)
+    submitAnswer(gameState, data)
+    broadcastGameStateChange(io, gameState)
   })
 
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`)
 
-    removePlayer(io, gameState, { id: socket.id })
+    removePlayer(gameState, { id: socket.id })
+    broadcastGameStateChange(io, gameState)
   })
 }

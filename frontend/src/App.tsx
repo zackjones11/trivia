@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
-import type { Player, Status, Question, PlayerScores } from './types'
+import type {
+  Player,
+  Status,
+  Question,
+  PlayerScores,
+  GameState,
+} from './types'
 import {
   JoinView,
   LobbyView,
@@ -22,7 +28,6 @@ export const App = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [status, setStatus] = useState<Status>('join')
   const [currentQuestion, setCurrentQuestion] = useState<Question>()
-
   const changeCategory = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedCategories = Array.from(
@@ -78,47 +83,21 @@ export const App = () => {
   }, [currentAnswer, currentQuestion, currentUsername])
 
   useEffect(() => {
-    socket.on('update_status', (newStatus: Status) => {
-      if (typeof newStatus === 'string') {
-        setStatus(newStatus)
-        return
-      }
-
-      if ('name' in newStatus) {
-        if (newStatus.name === currentUsername) {
-          setStatus(newStatus.status)
-        }
-      }
+    socket.on('game_state_changed', (gameState: GameState) => {
+      setStatus(gameState.viewState)
+      setPlayers(gameState.players)
+      setPlayerScores(gameState.playerAnswers)
+      setCurrentQuestion(gameState.question)
     })
-
-    socket.on('update_players', (newPlayers: Player[]) => {
-      setPlayers(newPlayers)
-    })
-
-    socket.on(
-      'update_player_scores',
-      (scores: Record<string, Record<string, boolean>>) => {
-        setPlayerScores(scores)
-      },
-    )
-
-    socket.on('new_question', (question: Question) => {
-      setCurrentQuestion(question)
-    })
-
-    socket.on('update_categories', (newCategories: string[]) => {
-      setSelectedCategories(newCategories)
-    })
-  }, [currentUsername])
+  }, [])
 
   if (status === 'join') {
     return <JoinView onJoin={joinGame} onChange={setCurrentUsername} />
   }
 
-  if (status === 'lobby' || status === 'loading') {
+  if (status === 'lobby') {
     return (
       <LobbyView
-        isLoading={status === 'loading'}
         selectedCategories={selectedCategories}
         players={players}
         onStartGame={startGame}
@@ -127,7 +106,7 @@ export const App = () => {
     )
   }
 
-  if (status === 'show_question' && currentQuestion) {
+  if (status === 'question' && currentQuestion) {
     return (
       <QuestionView
         question={currentQuestion}
@@ -137,13 +116,13 @@ export const App = () => {
     )
   }
 
-  if (status === 'show_correct' && currentQuestion) {
+  if (status === 'answer' && currentQuestion) {
     return (
       <AnswerView question={currentQuestion} selectedAnswer={currentAnswer} />
     )
   }
 
-  if (status === 'ended') {
+  if (status === 'end') {
     return <EndView scores={playerScores} onRestart={restartGame} />
   }
 }

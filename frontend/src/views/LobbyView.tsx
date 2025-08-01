@@ -2,20 +2,13 @@ import type { Player } from '../types'
 
 type Props = {
   selectedCategories: string[];
-  isLoading: boolean;
   players: Player[];
   onStartGame: () => void;
   onChangeCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const LobbyView = (props: Props) => {
-  const {
-    isLoading,
-    selectedCategories,
-    players,
-    onStartGame,
-    onChangeCategory,
-  } = props
+  const { selectedCategories, players, onStartGame, onChangeCategory } = props
 
   const categoriesData = [
     {
@@ -394,13 +387,11 @@ export const LobbyView = (props: Props) => {
       <h2>Players:</h2>
       <ul>
         {players.map((player) => (
-          <li>{player.name}</li>
+          <li>{player.username}</li>
         ))}
       </ul>
 
-      <button onClick={onStartGame}>
-        {isLoading ? 'Loading...' : 'Start Game'}
-      </button>
+      <button onClick={onStartGame}>Start Game</button>
     </>
   )
 }

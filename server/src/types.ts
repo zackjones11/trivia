@@ -2,7 +2,7 @@ export type Question = {
   id: number;
   question: string;
   options: string[];
-  correct_answer: string;
+  correctAnswer: string;
 };
 
 export type PlayerAnswers = Record<string, Record<string, boolean>>;
@@ -24,6 +24,14 @@ export type Settings = {
   categories: string[];
 };
 
+type CurrentQuestion = {
+  count: number;
+  id: number;
+  title: string;
+  options: string[];
+  correctAnswer: string;
+};
+
 export type GameState = {
   hostId: Player['id'] | null;
   viewState: ViewState;
@@ -31,7 +39,7 @@ export type GameState = {
   settings: Settings;
   questions: Question[];
   availableQuestions: Question[];
-  currentQuestionIndex: number;
+  currentQuestion: CurrentQuestion | undefined;
+  questionCount: number;
   playerAnswers: PlayerAnswers;
-  timer: NodeJS.Timeout | undefined;
 };
