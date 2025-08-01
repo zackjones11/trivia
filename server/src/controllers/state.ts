@@ -9,5 +9,4 @@ export const createGameState = (): GameState => ({
   },
   questions: [],
   currentQuestionIndex: -1,
-  questionCount: 0,
 })

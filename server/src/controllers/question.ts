@@ -20,7 +20,6 @@ const resetTimer = (io: Server, gameState: GameState) => {
 export const sendQuestion = (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
   gameState.currentQuestionIndex++
-  gameState.questionCount++
 
   broadcastGameStateChange(io, gameState)
   resetTimer(io, gameState)
@@ -32,10 +31,8 @@ const handleQuestionTimeout = (io: Server, gameState: GameState) => {
 
   io.emit('timer_up')
 
-  const { questionCount, questions } = gameState
-
   setTimeout(() => {
-    if (questionCount > Object.keys(questions).length - 1) {
+    if (gameState.currentQuestionIndex === Object.keys(gameState.questions).length - 1) {
       gameState.viewState = 'end'
       broadcastGameStateChange(io, gameState)
       clearTimeout(timer)

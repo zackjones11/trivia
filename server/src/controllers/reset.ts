@@ -4,6 +4,8 @@ export const restartGame = (gameState: GameState) => {
   gameState.viewState = 'lobby'
   gameState.questions = []
   gameState.currentQuestionIndex = -1
-  gameState.questionCount = 0
-  gameState.players = {}
+
+  for (const player of Object.values(gameState.players)) {
+    player.score = 0
+  }
 }

@@ -28,5 +28,4 @@ export type GameState = {
   settings: Settings;
   questions: Question[];
   currentQuestionIndex: number;
-  questionCount: number;
 };
