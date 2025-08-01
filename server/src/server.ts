@@ -7,6 +7,7 @@ import { sendQuestion } from './game/controller'
 import { createGameState } from './game/state'
 
 import type { SubmitAnswer } from './types'
+import { createHost, createPlayer, removePlayer } from './game/player'
 
 const app = express()
 const server = http.createServer(app)
@@ -21,6 +22,7 @@ const PORT = process.env.PORT || 3000
 
 let questionTimer: NodeJS.Timeout | undefined = undefined
 
+const gameState = createGameState()
 let {
   settings: { categories },
   questions,
@@ -28,15 +30,16 @@ let {
   currentQuestionIndex,
   players,
   playerAnswers,
-} = createGameState()
+} = gameState
 
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
 
   socket.on('send_username', (username: string) => {
-    players[socket.id] = { id: socket.id, username }
-
     console.log(`Player ${username} (${socket.id}) joined`)
+
+    createHost(gameState, { id: socket.id })
+    createPlayer(gameState, { id: socket.id, username })
 
     io.emit('update_players', players)
     io.emit('update_status', { name: username, status: 'lobby' })
@@ -92,11 +95,8 @@ io.on('connection', (socket: Socket) => {
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`)
 
-    const { username } = players[socket.id]
-
-    delete playerAnswers[username]
-    delete players[socket.id]
-
+    removePlayer(gameState, { id: socket.id })
+    
     io.emit('update_players', players)
     io.emit('update_player_scores', playerAnswers)
   })
