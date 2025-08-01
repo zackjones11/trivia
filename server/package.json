@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc server.ts"
   },
+  "type": "module",
   "author": "Zack Jones",
   "license": "ISC",
   "description": "",

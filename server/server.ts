@@ -1,5 +1,5 @@
-import * as express from 'express'
-import * as http from 'http'
+import express from 'express'
+import http from 'http'
 import { Server, Socket } from 'socket.io'
 
 const app = express()
@@ -53,7 +53,8 @@ let categories: string[] = []
 let triviaQuestions: Question[] = []
 let availableQuestions = [...triviaQuestions]
 let questionCount = 0
-const players = new Map()
+let players = new Map()
+const socketIdToName = new Map()
 let playerAnswers: PlayerAnswers = {}
 let questionTimer: NodeJS.Timeout | undefined = undefined
 
@@ -105,7 +106,7 @@ const handleQuestionTimeout = () => {
 }
 
 const fetchQuestions = async () => {
-    const text = getPrompt(NUMBER_OF_QUESTIONS, categories.join(', '))
+    const text = getPrompt(NUMBER_OF_QUESTIONS, (categories).join(', ').replaceAll('_', ' '))
     const requestBody = {
         contents: [
             {
@@ -145,11 +146,12 @@ io.on('connection', (socket: Socket) => {
 
     socket.on('send_username', (name: string) => {
         players.set(name, { id: socket.id, name })
+        socketIdToName.set(socket.id, name)
         console.log(`Player ${name} (${socket.id}) joined`)
 
         const playerList = Array.from(players.values())
         io.emit('update_players', playerList)
-        io.emit('update_status', 'lobby')
+        io.emit('update_status', { name, status: 'lobby' })
     })
     
     socket.on('start_game', async () => {
@@ -170,9 +172,11 @@ io.on('connection', (socket: Socket) => {
         availableQuestions = []
         questionCount = 0
         questionTimer = undefined
+        players = new Map()
         playerAnswers = {}
 
-        io.emit('update_status', 'join')
+        io.emit('update_status', 'lobby')
+        io.emit('update_player_scores', {})
     })
 
     socket.on('submit_answer', (data: SubmitAnswer) => {
@@ -186,6 +190,24 @@ io.on('connection', (socket: Socket) => {
         playerAnswers[data.player][data.questionId] = isCorrect
 
         io.emit('update_player_scores', playerAnswers)
+    })
+
+    socket.on("disconnect", () => {
+        console.log(`User disconnected: ${socket.id}`)
+
+        const name = socketIdToName.get(socket.id);
+
+        if (name) {
+            players.delete(name);
+            socketIdToName.delete(socket.id);
+            console.log(`Removed player: ${name}, ${players}`);
+        }
+        
+        const playerList = Array.from(players.values())
+        delete playerAnswers[name]
+
+        io.emit("update_players", playerList);
+        io.emit("update_player_scores", playerAnswers);
     })
 })
 
