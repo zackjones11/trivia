@@ -7,9 +7,11 @@ export const createGameState = (): GameState => ({
   answerSubmissions: {},
   settings: {
     categories: [],
+    phaseDuration: 10,
   },
   questions: [],
   currentQuestionIndex: -1,
+  phaseStartAt: -1,
 })
 
 export const isLastPlayer = (gameState: GameState) =>

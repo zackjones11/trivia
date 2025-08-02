@@ -19,4 +19,6 @@ export type GameState = {
   players: Player[];
   viewState: Status;
   question: Question;
+  phaseStartAt: number;
+  phaseDuration: number;
 };

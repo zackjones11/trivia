@@ -2,10 +2,11 @@ import type { Server, Socket } from 'socket.io'
 import { createHost, createPlayer, removePlayer } from './controllers/player'
 import type { GameState } from './types'
 import { startGame } from './controllers/start'
-import { changeCategories, submitAnswer } from './controllers/question'
 import { restartGame } from './controllers/reset'
 import { broadcastGameStateChange } from './controllers/broadcaster'
 import { isLastPlayer } from './controllers/state'
+import { changeCategories } from './controllers/category'
+import { submitAnswer } from './controllers/answer'
 
 export const createHandlers = (
   socket: Socket,
