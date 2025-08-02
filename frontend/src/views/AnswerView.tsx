@@ -4,14 +4,16 @@ import './styles.css'
 type Props = {
   question: Question;
   players: Player[];
+  timeRemaining: number;
   selectedAnswer?: string;
   answerSubmissions: AnswerSubmissions
 };
 
-export const AnswerView = ({ players, question, selectedAnswer, answerSubmissions }: Props) => {
+export const AnswerView = ({ timeRemaining, players, question, selectedAnswer, answerSubmissions }: Props) => {
   const whoAnsweredCorrectly = Object.entries(answerSubmissions).filter(([, answer]) => answer === question.correctAnswer)
   return (
     <>
+      <p>Next question in: {timeRemaining}</p>
       <ul className="answerList">
         {question.options.map((option) => (
           <li>

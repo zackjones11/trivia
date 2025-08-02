@@ -104,6 +104,7 @@ export const App = () => {
   if (status === 'question' && currentQuestion) {
     return (
       <QuestionView
+        timeRemaining={timeRemaining}
         question={currentQuestion}
         selectedAnswer={currentAnswer}
         onSelectAnswer={selectAnswer}
@@ -113,7 +114,7 @@ export const App = () => {
 
   if (status === 'answer' && currentQuestion) {
     return (
-      <AnswerView players={players} answerSubmissions={answerSubmissions} question={currentQuestion} selectedAnswer={currentAnswer} />
+      <AnswerView timeRemaining={timeRemaining} players={players} answerSubmissions={answerSubmissions} question={currentQuestion} selectedAnswer={currentAnswer} />
     )
   }
 

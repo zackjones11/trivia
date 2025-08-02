@@ -4,14 +4,16 @@ import './styles.css'
 type Props = {
   question: Question;
   selectedAnswer?: string;
+  timeRemaining: number;
   onSelectAnswer: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const QuestionView = (props: Props) => {
-  const { question, selectedAnswer, onSelectAnswer } = props
+  const { timeRemaining, question, selectedAnswer, onSelectAnswer } = props
   return (
     <>
       <h2>{question.title}</h2>
+      <p>Remaining: {timeRemaining}</p>
       <ul className="options">
         {question.options.map((option) => (
           <div className="optionBox">
