@@ -3,13 +3,12 @@ import './styles.css'
 
 type Props = {
   question: Question;
-  selectedAnswer?: string;
   timeRemaining: number;
   onSelectAnswer: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const QuestionView = (props: Props) => {
-  const { timeRemaining, question, selectedAnswer, onSelectAnswer } = props
+  const { timeRemaining, question, onSelectAnswer } = props
   return (
     <>
       <h2>{question.title}</h2>
@@ -18,7 +17,6 @@ export const QuestionView = (props: Props) => {
         {question.options.map((option) => (
           <div className="optionBox">
             <input
-              checked={selectedAnswer === option}
               type="radio"
               id={option}
               name={question.title}

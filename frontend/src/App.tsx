@@ -17,7 +17,6 @@ const socket = io('http://localhost:3000')
 
 export const App = () => {
   const [players, setPlayers] = useState<Player[]>([])
-  const [currentAnswer, setCurrentAnswer] = useState<string>()
   const [currentUsername, setCurrentUsername] = useState<string>()
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [status, setStatus] = useState<Status>('join')
@@ -42,7 +41,6 @@ export const App = () => {
       const newAnswer = event.currentTarget.value
 
       socket.emit('submit_answer', newAnswer)
-      setCurrentAnswer(newAnswer)
     },
     [],
   )
@@ -65,7 +63,6 @@ export const App = () => {
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
     setSelectedCategories([])
-    setCurrentAnswer(undefined)
     setCurrentQuestion(undefined)
     setPhaseDuration(0)
     setPhaseStartAt(0)
@@ -83,8 +80,6 @@ export const App = () => {
       console.log(gameState)
     })
   }, [])
-
-  console.log('timeRemaining', timeRemaining)
 
   if (status === 'join') {
     return <JoinView onJoin={joinGame} onChange={setCurrentUsername} />
@@ -106,7 +101,6 @@ export const App = () => {
       <QuestionView
         timeRemaining={timeRemaining}
         question={currentQuestion}
-        selectedAnswer={currentAnswer}
         onSelectAnswer={selectAnswer}
       />
     )
@@ -114,7 +108,7 @@ export const App = () => {
 
   if (status === 'answer' && currentQuestion) {
     return (
-      <AnswerView timeRemaining={timeRemaining} players={players} answerSubmissions={answerSubmissions} question={currentQuestion} selectedAnswer={currentAnswer} />
+      <AnswerView timeRemaining={timeRemaining} players={players} answerSubmissions={answerSubmissions} question={currentQuestion} />
     )
   }
 
