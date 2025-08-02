@@ -3,9 +3,15 @@ import { fetchQuestions } from '../api/fetchQuestions'
 import type { GameState } from '../types'
 import { sendQuestion } from './question'
 
-export const startGame = async (io: Server, gameState: GameState) => {
+type Data = { selectedCategories: string[] };
+
+export const startGame = async (
+  io: Server,
+  gameState: GameState,
+  data: Data,
+) => {
   gameState.viewState = 'question'
-  gameState.questions = await fetchQuestions(gameState.settings.categories)
+  gameState.questions = await fetchQuestions(data.selectedCategories)
 
   sendQuestion(io, gameState)
 }

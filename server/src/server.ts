@@ -3,8 +3,10 @@ import http from 'http'
 import { Server, Socket } from 'socket.io'
 
 import { createGameState } from './controllers/state'
+import categories from './api/categories'
 
 import { createHandlers } from './handlers'
+import { broadcastGameStateChange } from './controllers/broadcaster'
 
 const app = express()
 const server = http.createServer(app)
@@ -21,6 +23,9 @@ const gameState = createGameState()
 
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
+
+  gameState.settings.categories = categories
+  broadcastGameStateChange(io, gameState)
 
   createHandlers(socket, io, gameState)
 })

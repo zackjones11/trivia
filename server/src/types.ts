@@ -1,4 +1,4 @@
-type ViewState = 'lobby' | 'question' | 'answer' | 'end';
+type ViewState = 'join' | 'lobby' | 'question' | 'answer' | 'end';
 
 type Player = {
   id: string;
@@ -6,8 +6,18 @@ type Player = {
   score: number;
 };
 
+type Category = {
+  value: string;
+  text: string;
+};
+
+type CategoryGroup = {
+  label: string;
+  subCategories: Category[];
+};
+
 type Settings = {
-  categories: string[];
+  categories: CategoryGroup[];
   phaseDuration: number;
 };
 

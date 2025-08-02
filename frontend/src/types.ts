@@ -15,10 +15,21 @@ export type Question = {
 
 export type AnswerSubmissions = Record<Player['id'], string>;
 
+type Category = {
+  value: string;
+  text: string;
+};
+
+export type CategoryGroup = {
+  label: string;
+  subCategories: Category[];
+};
+
 export type GameState = {
   playerId: Player['id'] | null;
   hostId: Player['id'] | null;
   players: Player[];
+  categories: CategoryGroup[];
   viewState: Status;
   question: Question | null;
   phaseStartAt: number;

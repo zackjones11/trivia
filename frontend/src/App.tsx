@@ -24,10 +24,12 @@ const initialGameState: GameState = {
   phaseDuration: 0,
   phaseStartAt: 0,
   answerSubmissions: {},
+  categories: [],
 }
 
 export const App = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const changeCategory = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -35,8 +37,7 @@ export const App = () => {
         event.target.selectedOptions,
         (option) => option.value,
       )
-
-      socket.emit('change_category', selectedCategories)
+      setSelectedCategories(selectedCategories)
     },
     [],
   )
@@ -58,8 +59,8 @@ export const App = () => {
   }, [])
 
   const startGame = useCallback(() => {
-    socket.emit('start_game')
-  }, [])
+    socket.emit('start_game', selectedCategories)
+  }, [selectedCategories])
 
   const timeRemaining = useRemainingTime(
     gameState.phaseStartAt,
@@ -84,6 +85,7 @@ export const App = () => {
   if (gameState.viewState === 'lobby') {
     return (
       <LobbyView
+        categories={gameState.categories}
         players={gameState.players}
         onStartGame={startGame}
         onChangeCategory={changeCategory}
