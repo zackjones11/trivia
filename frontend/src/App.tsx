@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
-import type { Player, Status, Question, GameState } from './types'
+import type { GameState } from './types'
 import {
   JoinView,
   LobbyView,
@@ -15,15 +15,20 @@ import { useRemainingTime } from './useRemainingTime'
 
 const socket = io('http://localhost:3000')
 
+const initialGameState: GameState = {
+  players: [],
+  playerId: null,
+  hostId: null,
+  viewState: 'join',
+  question: null,
+  phaseDuration: 0,
+  phaseStartAt: 0,
+  answerSubmissions: {},
+}
+
 export const App = () => {
-  const [players, setPlayers] = useState<Player[]>([])
-  const [currentUsername, setCurrentUsername] = useState<string>()
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [status, setStatus] = useState<Status>('join')
-  const [currentQuestion, setCurrentQuestion] = useState<Question>()
-  const [phaseDuration, setPhaseDuration] = useState(0)
-  const [phaseStartAt, setPhaseStartAt] = useState(0)
-  const [answerSubmissions, setAnswerSubmissions] = useState({})
+  const [gameState, setGameState] = useState<GameState>(initialGameState)
+
   const changeCategory = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedCategories = Array.from(
@@ -45,74 +50,69 @@ export const App = () => {
     [],
   )
 
-  const joinGame = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
+  const joinGame = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-      socket.emit('send_username', currentUsername)
-    },
-    [currentUsername],
-  )
+    const formData = new FormData(event.currentTarget)
+    socket.emit('send_username', formData.get('username'))
+  }, [])
 
   const startGame = useCallback(() => {
     socket.emit('start_game')
   }, [])
 
-  const timeRemaining = useRemainingTime(phaseStartAt, phaseDuration)
+  const timeRemaining = useRemainingTime(
+    gameState.phaseStartAt,
+    gameState.phaseDuration,
+  )
 
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
-    setSelectedCategories([])
-    setCurrentQuestion(undefined)
-    setPhaseDuration(0)
-    setPhaseStartAt(0)
-    setAnswerSubmissions({})
+    setGameState(initialGameState)
   }, [])
 
   useEffect(() => {
     socket.on('game_state_changed', (gameState: GameState) => {
-      setStatus(gameState.viewState)
-      setPlayers(gameState.players)
-      setCurrentQuestion(gameState.question)
-      setPhaseDuration(gameState.phaseDuration)
-      setPhaseStartAt(gameState.phaseStartAt)
-      setAnswerSubmissions(gameState.answerSubmissions)
-      console.log(gameState)
+      setGameState(gameState)
     })
   }, [])
 
-  if (status === 'join') {
-    return <JoinView onJoin={joinGame} onChange={setCurrentUsername} />
+  if (gameState.viewState === 'join') {
+    return <JoinView onJoin={joinGame} />
   }
 
-  if (status === 'lobby') {
+  if (gameState.viewState === 'lobby') {
     return (
       <LobbyView
-        selectedCategories={selectedCategories}
-        players={players}
+        players={gameState.players}
         onStartGame={startGame}
         onChangeCategory={changeCategory}
       />
     )
   }
 
-  if (status === 'question' && currentQuestion) {
+  if (gameState.viewState === 'question' && gameState.question) {
     return (
       <QuestionView
         timeRemaining={timeRemaining}
-        question={currentQuestion}
+        question={gameState.question}
         onSelectAnswer={selectAnswer}
       />
     )
   }
 
-  if (status === 'answer' && currentQuestion) {
+  if (gameState.viewState === 'answer' && gameState.question) {
     return (
-      <AnswerView timeRemaining={timeRemaining} players={players} answerSubmissions={answerSubmissions} question={currentQuestion} />
+      <AnswerView
+        timeRemaining={timeRemaining}
+        players={gameState.players}
+        answerSubmissions={gameState.answerSubmissions}
+        question={gameState.question}
+      />
     )
   }
 
-  if (status === 'end') {
-    return <EndView players={players} onRestart={restartGame} />
+  if (gameState.viewState === 'end') {
+    return <EndView players={gameState.players} onRestart={restartGame} />
   }
 }

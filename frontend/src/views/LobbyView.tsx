@@ -1,14 +1,13 @@
 import type { Player } from '../types'
 
 type Props = {
-  selectedCategories: string[];
   players: Player[];
   onStartGame: () => void;
   onChangeCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const LobbyView = (props: Props) => {
-  const { selectedCategories, players, onStartGame, onChangeCategory } = props
+  const { players, onStartGame, onChangeCategory } = props
 
   const categoriesData = [
     {
@@ -372,11 +371,7 @@ export const LobbyView = (props: Props) => {
         {categoriesData.map((categoryGroup) => (
           <optgroup key={categoryGroup.label} label={categoryGroup.label}>
             {categoryGroup.options.map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                selected={selectedCategories.includes(option.value)}
-              >
+              <option key={option.value} value={option.value}>
                 {option.text}
               </option>
             ))}
