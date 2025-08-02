@@ -13,6 +13,8 @@ export type Question = {
   correctAnswer: string;
 };
 
+export type AnswerSubmissions = Record<Player['id'], string>
+
 export type GameState = {
   playerId: Player['id'];
   hostId: Player['id'] | null;
@@ -21,4 +23,5 @@ export type GameState = {
   question: Question;
   phaseStartAt: number;
   phaseDuration: number;
+  answerSubmissions: AnswerSubmissions
 };

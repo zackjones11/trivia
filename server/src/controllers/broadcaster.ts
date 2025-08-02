@@ -7,6 +7,7 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     viewState,
     currentQuestionIndex,
     phaseStartAt,
+    answerSubmissions,
     settings: { phaseDuration },
   } = gameState
 
@@ -24,5 +25,6 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     question,
     phaseStartAt,
     phaseDuration,
+    answerSubmissions,
   })
 }

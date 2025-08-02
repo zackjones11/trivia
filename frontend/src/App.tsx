@@ -24,7 +24,7 @@ export const App = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Question>()
   const [phaseDuration, setPhaseDuration] = useState(0)
   const [phaseStartAt, setPhaseStartAt] = useState(0)
-
+  const [answerSubmissions, setAnswerSubmissions] = useState({})
   const changeCategory = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedCategories = Array.from(
@@ -69,6 +69,7 @@ export const App = () => {
     setCurrentQuestion(undefined)
     setPhaseDuration(0)
     setPhaseStartAt(0)
+    setAnswerSubmissions({})
   }, [])
 
   useEffect(() => {
@@ -78,6 +79,7 @@ export const App = () => {
       setCurrentQuestion(gameState.question)
       setPhaseDuration(gameState.phaseDuration)
       setPhaseStartAt(gameState.phaseStartAt)
+      setAnswerSubmissions(gameState.answerSubmissions)
       console.log(gameState)
     })
   }, [])
@@ -111,7 +113,7 @@ export const App = () => {
 
   if (status === 'answer' && currentQuestion) {
     return (
-      <AnswerView question={currentQuestion} selectedAnswer={currentAnswer} />
+      <AnswerView players={players} answerSubmissions={answerSubmissions} question={currentQuestion} selectedAnswer={currentAnswer} />
     )
   }
 
