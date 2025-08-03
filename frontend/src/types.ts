@@ -2,6 +2,7 @@ export type Player = {
   id: string;
   username: string;
   score: number;
+  isHost: boolean;
 };
 
 export type Status = 'join' | 'lobby' | 'question' | 'answer' | 'end';
@@ -26,8 +27,6 @@ export type CategoryGroup = {
 };
 
 export type GameState = {
-  playerId: Player['id'] | null;
-  hostId: Player['id'] | null;
   players: Player[];
   categories: CategoryGroup[];
   viewState: Status;

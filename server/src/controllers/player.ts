@@ -4,23 +4,24 @@ export const createPlayer = (
   gameState: GameState,
   { id, username }: { id: string; username: string },
 ) => {
-  gameState.players[id] = { id, username, score: 0 }
+  const isFirstPlayer = Object.keys(gameState.players).length === 0
+
+  gameState.players[id] = { id, username, score: 0, isHost: isFirstPlayer }
 }
 
 export const removePlayer = (gameState: GameState, { id }: { id: string }) => {
+  if (!gameState.players[id]) return
+
+  const wasHost = gameState.players[id].isHost
+
   delete gameState.players[id]
 
-  const wasHost = id === gameState.hostId
-
   if (wasHost) {
-    gameState.hostId = Object.keys(gameState.players)[0]
-  }
-}
+    const remainingPlayerIds = Object.keys(gameState.players)
 
-export const createHost = (gameState: GameState, { id }: { id: string }) => {
-  const isFirstPlayer = Object.keys(gameState.players).length === 0
-
-  if (isFirstPlayer) {
-    gameState.hostId = id
+    if (remainingPlayerIds.length > 0) {
+      const newHostId = remainingPlayerIds[0]
+      gameState.players[newHostId].isHost = true
+    }
   }
 }

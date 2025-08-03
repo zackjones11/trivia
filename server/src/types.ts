@@ -4,6 +4,7 @@ type Player = {
   id: string;
   username: string;
   score: number;
+  isHost: boolean;
 };
 
 type Category = {
@@ -29,7 +30,6 @@ export type Question = {
 };
 
 export type GameState = {
-  hostId: Player['id'] | null;
   viewState: ViewState;
   players: Record<Player['id'], Player>;
   answerSubmissions: Record<Player['id'], string>;

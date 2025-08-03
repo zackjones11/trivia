@@ -3,7 +3,6 @@ import type { GameState } from '../types'
 
 export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
   const {
-    hostId,
     viewState,
     currentQuestionIndex,
     phaseStartAt,
@@ -21,7 +20,6 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
   io.emit('game_state_changed', {
     players,
     viewState,
-    hostId,
     question,
     phaseStartAt,
     phaseDuration,

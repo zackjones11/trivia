@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import io from 'socket.io-client'
 
 import type { GameState } from './types'
@@ -17,8 +17,6 @@ const socket = io('http://localhost:3000')
 
 const initialGameState: GameState = {
   players: [],
-  playerId: null,
-  hostId: null,
   viewState: 'join',
   question: null,
   phaseDuration: 0,
@@ -29,6 +27,7 @@ const initialGameState: GameState = {
 
 export const App = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState)
+  const [playerId, setPlayerId] = useState<string>()
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const changeCategory = useCallback(
@@ -67,12 +66,21 @@ export const App = () => {
     gameState.phaseDuration,
   )
 
+  const isHost = useMemo(
+    () => Boolean(gameState.players.find(({ id }) => id === playerId)?.isHost),
+    [gameState.players, playerId],
+  )
+
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
     setGameState(initialGameState)
   }, [])
 
   useEffect(() => {
+    socket.on('set_player_id', ({ id }) => {
+      setPlayerId(id)
+    })
+
     socket.on('game_state_changed', (gameState: GameState) => {
       setGameState(gameState)
     })
@@ -85,6 +93,7 @@ export const App = () => {
   if (gameState.viewState === 'lobby') {
     return (
       <LobbyView
+        isHost={isHost}
         categories={gameState.categories}
         players={gameState.players}
         onStartGame={startGame}

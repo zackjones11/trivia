@@ -1,5 +1,5 @@
 import type { Server, Socket } from 'socket.io'
-import { createHost, createPlayer, removePlayer } from './controllers/player'
+import { createPlayer, removePlayer } from './controllers/player'
 import type { GameState } from './types'
 import { startGame } from './controllers/start'
 import { restartGame } from './controllers/reset'
@@ -16,7 +16,6 @@ export const createHandlers = (
   socket.on('send_username', (username: string) => {
     console.log(`Player ${username} (${socket.id}) joined`)
 
-    createHost(gameState, { id: socket.id })
     createPlayer(gameState, { id: socket.id, username })
 
     gameState.viewState = 'lobby'
@@ -50,7 +49,7 @@ export const createHandlers = (
 
     if (isLastPlayer(gameState)) {
       restartGame(gameState)
-      return
+      gameState.viewState = 'join'
     }
 
     broadcastGameStateChange(io, gameState)

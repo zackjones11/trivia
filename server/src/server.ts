@@ -24,7 +24,10 @@ const gameState = createGameState()
 io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
 
+  socket.emit('set_player_id', { id: socket.id })
+
   gameState.settings.categories = categories
+
   broadcastGameStateChange(io, gameState)
 
   createHandlers(socket, io, gameState)
