@@ -49,7 +49,6 @@ export const createHandlers = (
 
     if (isLastPlayer(gameState)) {
       restartGame(gameState)
-      gameState.viewState = 'join'
     }
 
     broadcastGameStateChange(io, gameState)

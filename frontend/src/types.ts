@@ -5,7 +5,7 @@ export type Player = {
   isHost: boolean;
 };
 
-export type Status = 'join' | 'lobby' | 'question' | 'answer' | 'end';
+export type Status = 'lobby' | 'question' | 'answer' | 'end';
 
 export type Question = {
   id: string;

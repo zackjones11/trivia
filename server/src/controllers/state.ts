@@ -1,7 +1,7 @@
 import type { GameState } from '../types'
 
 export const createGameState = (): GameState => ({
-  viewState: 'join',
+  viewState: 'lobby',
   players: {},
   answerSubmissions: {},
   settings: {

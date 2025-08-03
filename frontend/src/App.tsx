@@ -17,7 +17,7 @@ const socket = io('http://localhost:3000')
 
 const initialGameState: GameState = {
   players: [],
-  viewState: 'join',
+  viewState: 'lobby',
   question: null,
   phaseDuration: 0,
   phaseStartAt: 0,
@@ -28,6 +28,7 @@ const initialGameState: GameState = {
 export const App = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState)
   const [playerId, setPlayerId] = useState<string>()
+  const [username, setUsername] = useState<string>()
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const changeCategory = useCallback(
@@ -54,7 +55,12 @@ export const App = () => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    socket.emit('send_username', formData.get('username'))
+    const newUsername = formData.get('username')
+
+    if (typeof newUsername === 'string') {
+      setUsername(newUsername)
+      socket.emit('send_username', newUsername)
+    }
   }, [])
 
   const startGame = useCallback(() => {
@@ -86,11 +92,11 @@ export const App = () => {
     })
   }, [])
 
-  if (gameState.viewState === 'join') {
+  if (!username) {
     return <JoinView onJoin={joinGame} />
   }
 
-  if (gameState.viewState === 'lobby') {
+  if (username && gameState.viewState === 'lobby') {
     return (
       <LobbyView
         isHost={isHost}
