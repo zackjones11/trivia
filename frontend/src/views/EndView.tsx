@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const EndView = ({ players, onRestart }: Props) => {
-  const playersSorted = players.sort((a, b) => a.score - b.score)
+  const playersSorted = players.sort((a, b) => b.score - a.score)
 
   return (
     <>
@@ -18,7 +18,7 @@ export const EndView = ({ players, onRestart }: Props) => {
         {playersSorted.map(({ username, score }) => {
           return (
             <li>
-              {username}: {score}
+              {username}: {score}/10
             </li>
           )
         })}
