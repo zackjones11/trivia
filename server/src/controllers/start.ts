@@ -1,7 +1,7 @@
 import type { Server } from 'socket.io'
-import { fetchQuestions } from '../api/fetchQuestions'
-import type { GameState } from '../types'
-import { sendQuestion } from './question'
+import { fetchQuestions } from '../api/fetchQuestions.ts'
+import type { GameState } from '../types.ts'
+import { sendQuestion } from './question.ts'
 
 type Data = { selectedCategories: string[] };
 

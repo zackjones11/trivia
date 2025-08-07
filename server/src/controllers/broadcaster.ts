@@ -1,5 +1,5 @@
 import type { Server } from 'socket.io'
-import type { GameState } from '../types'
+import type { GameState } from '../types.ts'
 
 export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
   const {

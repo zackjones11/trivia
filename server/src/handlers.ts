@@ -1,12 +1,12 @@
 import type { Server, Socket } from 'socket.io'
-import { createPlayer, removePlayer } from './controllers/player'
-import type { GameState } from './types'
-import { startGame } from './controllers/start'
-import { restartGame } from './controllers/reset'
-import { broadcastGameStateChange } from './controllers/broadcaster'
-import { isLastPlayer } from './controllers/state'
-import { changeCategories } from './controllers/category'
-import { submitAnswer } from './controllers/answer'
+import { createPlayer, removePlayer } from './controllers/player.ts'
+import type { GameState } from './types.ts'
+import { startGame } from './controllers/start.ts'
+import { restartGame } from './controllers/reset.ts'
+import { broadcastGameStateChange } from './controllers/broadcaster.ts'
+import { isLastPlayer } from './controllers/state.ts'
+import { changeCategories } from './controllers/category.ts'
+import { submitAnswer } from './controllers/answer.ts'
 
 export const createHandlers = (
   socket: Socket,

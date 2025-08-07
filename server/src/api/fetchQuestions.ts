@@ -2,7 +2,7 @@
 // const API_ENDPOINT =
 //   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
 
-import type { Question } from '../types'
+import type { Question } from '../types.ts'
 
 // const NUMBER_OF_QUESTIONS = 2
 

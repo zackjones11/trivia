@@ -1,9 +1,9 @@
 import type { Server } from 'socket.io'
 
-import { broadcastGameStateChange } from './broadcaster'
-import { showAnswer } from './answer'
+import { broadcastGameStateChange } from './broadcaster.ts'
+import { showAnswer } from './answer.ts'
 
-import type { GameState } from '../types'
+import type { GameState } from '../types.ts'
 
 export const sendQuestion = (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
