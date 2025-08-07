@@ -6,6 +6,7 @@ type Props = {
   players: Player[];
   playerId: string;
   timeRemaining: number;
+  username: string;
   answerSubmissions: AnswerSubmissions;
 };
 
@@ -13,6 +14,7 @@ export const AnswerView = (props: Props) => {
   const {
   timeRemaining,
   players,
+  username,
   question,
   answerSubmissions,
 } = props
@@ -34,16 +36,20 @@ export const AnswerView = (props: Props) => {
         ))}
       </ul>
 
-      <p>Well done:</p>
-      <ul>
-        {whoAnsweredCorrectly.map(([playerId]) => (
-          <li>{players.find(({ id }) => id === playerId)?.username}</li>
-        ))}
-      </ul>
-
       <p>
-        {answeredCorrectly ? 'Nice job! 🚀' : 'Better luck next time 🙏'}
+        {answeredCorrectly ? `Nice job ${username}! 🚀` : 'Better luck next time 🙏'}
       </p>
+
+      {whoAnsweredCorrectly.length > 0 ? (
+        <>
+          <p>Well done:</p>
+            <ul>
+              {whoAnsweredCorrectly.map(([playerId]) => (
+                <li>{players.find(({ id }) => id === playerId)?.username}</li>
+              ))}
+          </ul>
+        </>
+    ) : <p>That was a tricky one!</p>}
     </>
   )
 }
