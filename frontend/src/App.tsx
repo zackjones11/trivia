@@ -118,9 +118,10 @@ export const App = () => {
     )
   }
 
-  if (gameState.viewState === 'answer' && gameState.question) {
+  if (playerId && gameState.viewState === 'answer' && gameState.question) {
     return (
       <AnswerView
+        playerId={playerId}
         timeRemaining={timeRemaining}
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}

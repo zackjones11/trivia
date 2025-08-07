@@ -4,30 +4,31 @@ import './styles.css'
 type Props = {
   question: Question;
   players: Player[];
+  playerId: string;
   timeRemaining: number;
-  selectedAnswer?: string;
   answerSubmissions: AnswerSubmissions;
 };
 
-export const AnswerView = ({
+export const AnswerView = (props: Props) => {
+  const {
   timeRemaining,
   players,
   question,
-  selectedAnswer,
   answerSubmissions,
-}: Props) => {
+} = props
   const whoAnsweredCorrectly = Object.entries(answerSubmissions).filter(
     ([, answer]) => answer === question.correctAnswer,
   )
+  const answeredCorrectly = Object.entries(whoAnsweredCorrectly).some(([, [playerId]]) => {
+    return playerId === props.playerId
+  })
   return (
     <>
       <p>Next question in: {timeRemaining}</p>
       <ul className="answerList">
         {question.options.map((option) => (
           <li>
-            {question.correctAnswer.toLowerCase() === option.toLowerCase()
-              ? '✅'
-              : '❌'}{' '}
+            {question.correctAnswer === option ? '✅' : '❌'}
             <span>{option}</span>
           </li>
         ))}
@@ -41,9 +42,7 @@ export const AnswerView = ({
       </ul>
 
       <p>
-        {selectedAnswer?.toLowerCase() === question.correctAnswer?.toLowerCase()
-          ? 'Nice job! 🚀'
-          : 'Better luck next time 🙏'}
+        {answeredCorrectly ? 'Nice job! 🚀' : 'Better luck next time 🙏'}
       </p>
     </>
   )
