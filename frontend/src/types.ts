@@ -5,7 +5,7 @@ export type Player = {
   isHost: boolean;
 };
 
-export type Status = 'lobby' | 'question' | 'answer' | 'end';
+export type ViewState = 'loading' | 'lobby' | 'question' | 'answer' | 'end';
 
 export type Question = {
   id: string;
@@ -29,7 +29,7 @@ export type CategoryGroup = {
 export type GameState = {
   players: Player[];
   categories: CategoryGroup[];
-  viewState: Status;
+  viewState: ViewState;
   question: Question | null;
   phaseStartAt: number;
   phaseDuration: number;

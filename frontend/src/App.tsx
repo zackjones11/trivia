@@ -96,6 +96,10 @@ export const App = () => {
     return <JoinView onJoin={joinGame} />
   }
 
+  if (gameState.viewState === 'loading') {
+    return <h1>Loading...</h1>
+  }
+
   if (username && gameState.viewState === 'lobby') {
     return (
       <LobbyView

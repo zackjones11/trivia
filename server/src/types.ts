@@ -1,4 +1,4 @@
-type ViewState = 'lobby' | 'question' | 'answer' | 'end';
+type ViewState = 'loading' | 'lobby' | 'question' | 'answer' | 'end';
 
 type Player = {
   id: string;
