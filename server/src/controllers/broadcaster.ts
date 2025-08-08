@@ -9,7 +9,11 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     currentQuestionIndex,
     phaseStartAt,
     answerSubmissions,
-    settings: { selectedCategories, phaseDuration },
+    settings: {
+      selectedCategories,
+      questionPhaseDuration,
+      answerPhaseDuration,
+    },
   } = gameState
 
   const question =
@@ -18,6 +22,9 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
       : undefined
 
   const players = Object.values(gameState.players)
+
+  const phaseDuration =
+    viewState === 'question' ? questionPhaseDuration : answerPhaseDuration
 
   io.emit('game_state_changed', {
     players,

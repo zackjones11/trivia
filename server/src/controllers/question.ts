@@ -15,5 +15,5 @@ export const sendQuestion = (io: Server, gameState: GameState) => {
 
   setTimeout(() => {
     showAnswer(io, gameState)
-  }, gameState.settings.phaseDuration * 1000)
+  }, gameState.settings.questionPhaseDuration * 1000)
 }

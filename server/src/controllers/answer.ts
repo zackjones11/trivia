@@ -35,5 +35,5 @@ export const showAnswer = (io: Server, gameState: GameState) => {
 
     gameState.viewState = 'end'
     broadcastGameStateChange(io, gameState)
-  }, gameState.settings.phaseDuration * 1000)
+  }, gameState.settings.answerPhaseDuration * 1000)
 }

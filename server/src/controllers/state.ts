@@ -1,12 +1,16 @@
 import type { GameState } from '../types.ts'
 
+export const QUESTION_PHASE_DURATION = 15
+export const ANSWER_PHASE_DURATION = 10
+
 export const createGameState = (): GameState => ({
   viewState: 'lobby',
   players: {},
   answerSubmissions: {},
   settings: {
     selectedCategories: [],
-    phaseDuration: 10,
+    questionPhaseDuration: QUESTION_PHASE_DURATION,
+    answerPhaseDuration: ANSWER_PHASE_DURATION,
   },
   questions: [],
   currentQuestionIndex: -1,

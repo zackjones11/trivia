@@ -9,7 +9,8 @@ type Player = {
 
 type Settings = {
   selectedCategories: string[];
-  phaseDuration: number;
+  questionPhaseDuration: number;
+  answerPhaseDuration: number;
 };
 
 export type Question = {
