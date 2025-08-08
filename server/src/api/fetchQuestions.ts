@@ -7,7 +7,7 @@ import type { Question } from '../types.ts'
 const NUMBER_OF_QUESTIONS = 10
 
 const getPrompt = (numberOfQuestions: number, category: string) => {
-  return `Generate ${numberOfQuestions} multiple-choice and unique trivia questions about ${category || 'random topics'}.
+  return `Generate ${numberOfQuestions} multiple-choice and unique trivia questions about ${category}.
     The questions should be of varying levels of difficulty and an equal distribution between the categories.
     Each question should have 4 answer options and clearly indicate the single correct answer.
     Present the output in a structured JSON array of objects, where each object has:

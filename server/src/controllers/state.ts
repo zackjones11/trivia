@@ -8,7 +8,7 @@ export const createGameState = (): GameState => ({
   players: {},
   answerSubmissions: {},
   settings: {
-    selectedCategories: [],
+    selectedCategories: ['general_knowledge_general'],
     questionPhaseDuration: QUESTION_PHASE_DURATION,
     answerPhaseDuration: ANSWER_PHASE_DURATION,
   },
