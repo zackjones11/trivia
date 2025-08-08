@@ -2,7 +2,6 @@ import http from 'http'
 import { Server, Socket } from 'socket.io'
 
 import { createGameState } from './controllers/state.ts'
-import categories from './api/categories.ts'
 
 import { createHandlers } from './handlers.ts'
 import { broadcastGameStateChange } from './controllers/broadcaster.ts'
@@ -23,8 +22,6 @@ io.on('connection', (socket: Socket) => {
   console.log(`A user connected: ${socket.id}`)
 
   socket.emit('set_player_id', { id: socket.id })
-
-  gameState.settings.categories = categories
 
   broadcastGameStateChange(io, gameState)
 

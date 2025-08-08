@@ -4,5 +4,5 @@ export const changeCategories = (
   gameState: GameState,
   newCategories: string[],
 ) => {
-  gameState.settings.categories = newCategories
+  gameState.settings.selectedCategories = newCategories
 }

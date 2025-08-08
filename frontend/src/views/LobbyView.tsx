@@ -3,13 +3,21 @@ import type { CategoryGroup, Player } from '../types'
 type Props = {
   isHost: boolean;
   players: Player[];
+  selectedCategories: string[];
   categories: CategoryGroup[];
   onStartGame: () => void;
   onChangeCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const LobbyView = (props: Props) => {
-  const { isHost, categories, players, onStartGame, onChangeCategory } = props
+  const {
+    isHost,
+    selectedCategories,
+    categories,
+    players,
+    onStartGame,
+    onChangeCategory,
+  } = props
 
   return (
     <>
@@ -26,7 +34,11 @@ export const LobbyView = (props: Props) => {
             {categories.map((categoryGroup) => (
               <optgroup key={categoryGroup.label} label={categoryGroup.label}>
                 {categoryGroup.subCategories.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    selected={selectedCategories.includes(option.value)}
+                  >
                     {option.text}
                   </option>
                 ))}
@@ -35,7 +47,11 @@ export const LobbyView = (props: Props) => {
           </select>
         </>
       ) : (
-        'The host is selecting the categories'
+        <>
+          {selectedCategories.length === 0
+            ? 'The host is selecting the categories'
+            : `The host has selected the following categories so far: ${selectedCategories.join(', ')}`}
+        </>
       )}
 
       <h2>Players:</h2>

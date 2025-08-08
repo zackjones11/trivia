@@ -23,8 +23,8 @@ export const createHandlers = (
     broadcastGameStateChange(io, gameState)
   })
 
-  socket.on('start_game', async (selectedCategories: string[]) => {
-    startGame(io, gameState, { selectedCategories })
+  socket.on('start_game', async () => {
+    startGame(io, gameState)
   })
 
   socket.on('change_category', (newCategories: string[]) => {

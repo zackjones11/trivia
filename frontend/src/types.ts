@@ -34,4 +34,5 @@ export type GameState = {
   phaseStartAt: number;
   phaseDuration: number;
   answerSubmissions: AnswerSubmissions;
+  selectedCategories: string[];
 };

@@ -11,7 +11,9 @@ export const QuestionView = (props: Props) => {
   const { timeRemaining, question, onSelectAnswer } = props
   return (
     <>
-      <h2>{question.id}/10 : {question.title}</h2>
+      <h2>
+        {question.id}/10 : {question.title}
+      </h2>
       <p>Remaining: {timeRemaining}</p>
       <ul className="options">
         {question.options.map((option) => (

@@ -1,3 +1,5 @@
+import categories from '../api/categories.ts'
+
 import type { Server } from 'socket.io'
 import type { GameState } from '../types.ts'
 
@@ -7,7 +9,7 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     currentQuestionIndex,
     phaseStartAt,
     answerSubmissions,
-    settings: { categories, phaseDuration },
+    settings: { selectedCategories, phaseDuration },
   } = gameState
 
   const question =
@@ -25,5 +27,6 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     phaseDuration,
     answerSubmissions,
     categories,
+    selectedCategories,
   })
 }

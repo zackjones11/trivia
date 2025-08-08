@@ -7,18 +7,8 @@ type Player = {
   isHost: boolean;
 };
 
-type Category = {
-  value: string;
-  text: string;
-};
-
-type CategoryGroup = {
-  label: string;
-  subCategories: Category[];
-};
-
 type Settings = {
-  categories: CategoryGroup[];
+  selectedCategories: string[];
   phaseDuration: number;
 };
 

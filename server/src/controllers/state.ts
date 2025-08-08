@@ -5,7 +5,7 @@ export const createGameState = (): GameState => ({
   players: {},
   answerSubmissions: {},
   settings: {
-    categories: [],
+    selectedCategories: [],
     phaseDuration: 10,
   },
   questions: [],
