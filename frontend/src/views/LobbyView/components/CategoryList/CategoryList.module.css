@@ -1,0 +1,50 @@
+@reference "tailwindcss";
+
+.categoryList {
+  @apply max-h-[32rem];
+  @apply overflow-auto;
+  @apply pr-1;
+  @apply space-y-3;
+}
+
+.categoryGroup {
+  @apply text-xs;
+  @apply uppercase;
+  @apply tracking-wide;
+  @apply text-gray-400;
+}
+
+.categoryItem {
+  @apply w-full;
+  @apply text-left;
+  @apply flex;
+  @apply items-center;
+  @apply justify-between;
+  @apply gap-2;
+  @apply px-4;
+  @apply py-2;
+  @apply rounded-lg;
+  @apply border;
+  @apply transition;
+  @apply bg-gray-900;
+  @apply text-gray-200;
+  @apply border-gray-800;
+  @apply hover:bg-gray-800;
+}
+
+.categoryItemSelected {
+  @apply w-full;
+  @apply text-left;
+  @apply flex;
+  @apply items-center;
+  @apply justify-between;
+  @apply gap-2;
+  @apply px-4;
+  @apply py-2;
+  @apply rounded-lg;
+  @apply border;
+  @apply transition;
+  @apply bg-indigo-600;
+  @apply text-white;
+  @apply border-indigo-700;
+}

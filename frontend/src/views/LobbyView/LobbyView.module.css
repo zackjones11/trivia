@@ -1,0 +1,88 @@
+@reference "tailwindcss";
+
+.container {
+  @apply max-w-6xl;
+  @apply w-[80vw];
+  @apply mx-auto;
+  @apply px-4;
+  @apply pb-16;
+}
+
+.grid {
+  @apply grid;
+  @apply lg:grid-cols-4;
+  @apply gap-6;
+}
+
+.headline {
+  @apply text-base;
+  @apply font-medium;
+  @apply mb-2;
+}
+
+.stepHeadline {
+  @apply text-sm;
+  @apply uppercase;
+  @apply tracking-wide;
+  @apply text-gray-400;
+  @apply mb-1;
+  @apply mt-6;
+}
+
+.subLine {
+  @apply text-sm;
+  @apply font-medium;
+  @apply mb-3;
+}
+
+.playersContainer {
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-6;
+  @apply shadow-sm;
+  @apply bg-gray-950;
+}
+
+.settingsContainer {
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-6;
+  @apply shadow-sm;
+  @apply bg-gray-950;
+  @apply lg:col-span-3;
+}
+
+.stepsGrid {
+  @apply grid grid-cols-[2.5fr_1fr] gap-8;
+}
+
+.footer {
+  @apply flex;
+  @apply items-center;
+  @apply justify-end;
+  @apply gap-3;
+  @apply lg:static lg:bg-transparent lg:border-0 lg:py-0 lg:px-0 fixed;
+  @apply inset-x-0;
+  @apply bottom-0;
+  @apply z-40;
+  @apply bg-gray-950/95;
+  @apply backdrop-blur;
+  @apply supports-[backdrop-filter]:bg-gray-950/75;
+  @apply border-t;
+  @apply border-gray-800;
+  @apply py-3;
+}
+
+.button {
+  @apply bg-indigo-600;
+  @apply text-white;
+  @apply hover:bg-indigo-700;
+  @apply rounded-lg;
+  @apply px-4;
+  @apply py-2;
+  @apply text-sm;
+  @apply font-medium;
+  @apply transition;
+}
