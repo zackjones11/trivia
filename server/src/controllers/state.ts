@@ -15,7 +15,7 @@ export const createGameState = (): GameState => ({
   questions: [],
   currentQuestionIndex: -1,
   phaseStartAt: -1,
-  timers: { questionPhaseTimeoutId: null, answerPhaseTimeoutId: null }
+  timers: { questionPhaseTimeoutId: null, answerPhaseTimeoutId: null },
 })
 
 export const isLastPlayer = (gameState: GameState) =>

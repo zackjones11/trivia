@@ -1,0 +1,47 @@
+.list {
+  @apply space-y-2;
+}
+
+.item {
+  @apply flex;
+  @apply items-center;
+  @apply justify-between;
+  @apply gap-2;
+  @apply rounded-lg;
+  @apply border;
+  @apply border-gray-800;
+  @apply bg-gray-950;
+  @apply px-3;
+  @apply py-2;
+}
+
+.content {
+  @apply flex;
+  @apply items-center;
+  @apply gap-2;
+  @apply min-w-0;
+}
+
+.avatar {
+  @apply w-8;
+  @apply h-8;
+  @apply rounded-full;
+  @apply bg-indigo-700;
+  @apply text-white;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply text-xs;
+  @apply font-bold;
+  @apply shrink-0;
+}
+
+.pill {
+  @apply inline-block;
+  @apply rounded-full;
+  @apply bg-gray-800;
+  @apply px-2;
+  @apply py-0.5;
+  @apply text-[10px];
+  @apply text-gray-200;
+}
