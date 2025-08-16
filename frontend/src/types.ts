@@ -26,15 +26,19 @@ export type CategoryGroup = {
   subCategories: Category[];
 };
 
+export type Settings = {
+  selectedCategories: string[];
+  numberOfQuestions: number;
+  questionPhaseDuration: number;
+  answerPhaseDuration: number;
+};
+
 export type GameState = {
-  players: Player[];
-  categories: CategoryGroup[];
   viewState: ViewState;
+  players: Player[];
+  answerSubmissions: AnswerSubmissions;
+  settings: Settings;
   question: Question | null;
   phaseStartAt: number;
-  phaseDuration: number;
-  questionPhaseDuration: number;
-  numberOfQuestions: number;
-  answerSubmissions: AnswerSubmissions;
-  selectedCategories: string[];
+  categories: CategoryGroup[];
 };

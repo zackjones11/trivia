@@ -1,5 +1,5 @@
 export { JoinView } from './JoinView/JoinView'
-export { LobbyView, type Settings } from './LobbyView/LobbyView'
+export { LobbyView } from './LobbyView/LobbyView'
 export { QuestionView } from './QuestionView/QuestionView'
 export { AnswerView } from './AnswerView/AnswerView'
 export { EndView } from './EndView/EndView'

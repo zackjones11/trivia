@@ -1,14 +1,8 @@
-import type { CategoryGroup, Player } from '../../types'
+import type { CategoryGroup, Player, Settings } from '../../types'
 
 import styles from './LobbyView.module.css'
 import { ButtonGroup, Layout, PlayerList } from '../../components'
 import { CategoryList } from './components'
-
-export type Settings = {
-  selectedCategories: string[];
-  numberOfQuestions: number;
-  questionPhaseDuration: number;
-};
 
 type Props = {
   isHost: boolean;

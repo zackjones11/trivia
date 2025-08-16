@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import io from 'socket.io-client'
 
-import type { GameState } from './types'
+import type { GameState, Settings } from './types'
 import {
   JoinView,
   LobbyView,
   QuestionView,
   AnswerView,
   EndView,
-  type Settings,
 } from './views'
 import { useRemainingTime } from './hooks'
 
@@ -20,13 +19,15 @@ const initialGameState: GameState = {
   players: [],
   viewState: 'lobby',
   question: null,
-  phaseDuration: 0,
+  settings: {
+    questionPhaseDuration: 0,
+    answerPhaseDuration: 0,
+    numberOfQuestions: 0,
+    selectedCategories: [],
+  },
   phaseStartAt: 0,
-  questionPhaseDuration: 0,
-  numberOfQuestions: 0,
   answerSubmissions: {},
   categories: [],
-  selectedCategories: [],
 }
 
 export const App = () => {
@@ -75,10 +76,12 @@ export const App = () => {
     socket.emit('start_game')
   }, [])
 
-  const timeRemaining = useRemainingTime(
-    gameState.phaseStartAt,
-    gameState.phaseDuration,
-  )
+  const phaseDuration =
+    gameState.viewState === 'question'
+      ? gameState.settings.questionPhaseDuration
+      : gameState.settings.answerPhaseDuration
+
+  const timeRemaining = useRemainingTime(gameState.phaseStartAt, phaseDuration)
 
   const isHost = useMemo(
     () => Boolean(gameState.players.find(({ id }) => id === playerId)?.isHost),
@@ -114,11 +117,7 @@ export const App = () => {
         isHost={isHost}
         categories={gameState.categories}
         players={gameState.players}
-        settings={{
-          numberOfQuestions: gameState.numberOfQuestions,
-          selectedCategories: gameState.selectedCategories,
-          questionPhaseDuration: gameState.questionPhaseDuration,
-        }}
+        settings={gameState.settings}
         onChangeSettings={changeSettings}
         onStartGame={startGame}
       />
@@ -132,8 +131,8 @@ export const App = () => {
         question={gameState.question}
         onSelectAnswer={selectAnswer}
         selectedAnswer={gameState.answerSubmissions[playerId]}
-        numberOfQuestions={gameState.numberOfQuestions}
-        phaseDuration={gameState.phaseDuration}
+        numberOfQuestions={gameState.settings.numberOfQuestions}
+        phaseDuration={phaseDuration}
       />
     )
   }
@@ -146,8 +145,8 @@ export const App = () => {
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}
         question={gameState.question}
-        numberOfQuestions={gameState.numberOfQuestions}
-        phaseDuration={gameState.phaseDuration}
+        numberOfQuestions={gameState.settings.numberOfQuestions}
+        phaseDuration={phaseDuration}
       />
     )
   }
