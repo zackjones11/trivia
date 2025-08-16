@@ -2,11 +2,13 @@ import styles from './Countdown.module.css'
 
 type Props = { seconds: number; totalTime: number };
 
+const radius = 29
+const circumference = 2 * Math.PI * radius
+
 export const Countdown = ({ seconds, totalTime }: Props) => {
-  const radius = 29
-  const circumference = 2 * Math.PI * radius
   const progress = Math.max(0, Math.min(1, seconds / totalTime))
   const dashOffset = circumference * (1 - progress)
+  const fillColor = progress < 0.3 ? 'rgb(244,63,94)' : 'rgb(99,102,241)'
 
   return (
     <div className={styles.container}>
@@ -25,7 +27,7 @@ export const Countdown = ({ seconds, totalTime }: Props) => {
           cy="32"
           r={radius}
           fill="none"
-          stroke="rgb(99,102,241)"
+          stroke={fillColor}
           strokeWidth="6"
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
