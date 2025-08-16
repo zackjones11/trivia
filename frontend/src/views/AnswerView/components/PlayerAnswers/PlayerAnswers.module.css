@@ -7,7 +7,7 @@
 }
 
 .headline {
-  @apply mb-1;
+  @apply mb-2;
   @apply text-gray-400;
 }
 

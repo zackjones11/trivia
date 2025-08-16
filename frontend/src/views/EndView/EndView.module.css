@@ -53,6 +53,7 @@
   @apply w-full;
   @apply h-auto;
   @apply object-contain;
+  @apply mt-2;
 }
 
 .right {
