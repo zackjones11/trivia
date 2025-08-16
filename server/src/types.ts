@@ -20,6 +20,11 @@ export type Question = {
   correctAnswer: string;
 };
 
+export type Timers = {
+  questionPhaseTimeoutId: NodeJS.Timeout | null;
+  answerPhaseTimeoutId: NodeJS.Timeout | null
+}
+
 export type GameState = {
   viewState: ViewState;
   players: Record<Player['id'], Player>;
@@ -28,4 +33,5 @@ export type GameState = {
   questions: Question[];
   currentQuestionIndex: number;
   phaseStartAt: number;
+  timers: Timers
 };

@@ -27,7 +27,7 @@ export const showAnswer = (io: Server, gameState: GameState) => {
 
   broadcastGameStateChange(io, gameState)
 
-  setTimeout(() => {
+  gameState.timers.answerPhaseTimeoutId = setTimeout(() => {
     if (gameState.currentQuestionIndex + 1 < gameState.questions.length) {
       sendQuestion(io, gameState)
       return

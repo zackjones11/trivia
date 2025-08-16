@@ -13,7 +13,7 @@ export const sendQuestion = (io: Server, gameState: GameState) => {
 
   broadcastGameStateChange(io, gameState)
 
-  setTimeout(() => {
+  gameState.timers.questionPhaseTimeoutId = setTimeout(() => {
     showAnswer(io, gameState)
   }, gameState.settings.questionPhaseDuration * 1000)
 }

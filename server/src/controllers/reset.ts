@@ -13,4 +13,14 @@ export const restartGame = (gameState: GameState) => {
   for (const player of Object.values(gameState.players)) {
     player.score = 0
   }
+
+  if (gameState.timers.questionPhaseTimeoutId) {
+    clearTimeout(gameState.timers.questionPhaseTimeoutId)
+    gameState.timers.questionPhaseTimeoutId = null
+  }
+
+  if (gameState.timers.answerPhaseTimeoutId) {
+    clearTimeout(gameState.timers.answerPhaseTimeoutId)
+    gameState.timers.answerPhaseTimeoutId = null
+  }
 }

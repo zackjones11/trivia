@@ -1,6 +1,6 @@
 import type { GameState } from '../types.ts'
 
-export const QUESTION_PHASE_DURATION = 15
+export const QUESTION_PHASE_DURATION = 10
 export const ANSWER_PHASE_DURATION = 10
 
 export const createGameState = (): GameState => ({
@@ -15,6 +15,7 @@ export const createGameState = (): GameState => ({
   questions: [],
   currentQuestionIndex: -1,
   phaseStartAt: -1,
+  timers: { questionPhaseTimeoutId: null, answerPhaseTimeoutId: null }
 })
 
 export const isLastPlayer = (gameState: GameState) =>
