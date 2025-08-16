@@ -86,3 +86,13 @@
   @apply font-medium;
   @apply transition;
 }
+
+.pill {
+  @apply inline-block;
+  @apply rounded-full;
+  @apply bg-gray-800;
+  @apply px-2;
+  @apply py-0.5;
+  @apply text-[10px];
+  @apply text-gray-200;
+}

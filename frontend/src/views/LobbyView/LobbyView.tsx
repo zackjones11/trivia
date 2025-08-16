@@ -43,7 +43,16 @@ export const LobbyView = (props: Props) => {
       <div className={styles.grid}>
         <div className={styles.playersContainer}>
           <div className={styles.headline}>Players</div>
-          <PlayerList players={players} />
+          <PlayerList
+            players={players}
+            endContent={(player) => (
+              <>
+                {player.isHost ? (
+                  <span className={styles.pill}>Host</span>
+                ) : null}
+              </>
+            )}
+          />
         </div>
 
         <div className={styles.settingsContainer}>
