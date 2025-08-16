@@ -2,12 +2,13 @@ import type { Question } from '../../types'
 
 import styles from './QuestionView.module.css'
 import { Countdown, Layout, QuestionList } from '../../components'
+import { useRemainingTime } from '../../hooks'
 
 type Props = {
   question: Question;
-  timeRemaining: number;
   numberOfQuestions: number;
   phaseDuration: number;
+  phaseStartAt: number;
   selectedAnswer: string | undefined;
   onSelectAnswer: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -16,12 +17,14 @@ type Props = {
 
 export const QuestionView = (props: Props) => {
   const {
-    phaseDuration,
-    timeRemaining,
     question,
+    phaseDuration,
+    phaseStartAt,
     selectedAnswer,
     onSelectAnswer,
   } = props
+
+  const timeRemaining = useRemainingTime(phaseStartAt, phaseDuration)
 
   return (
     <Layout>

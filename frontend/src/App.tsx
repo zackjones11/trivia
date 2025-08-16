@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
 import type { GameState, Settings } from './types'
@@ -9,29 +9,13 @@ import {
   AnswerView,
   EndView,
 } from './views'
-import { useRemainingTime } from './hooks'
 
 import './styles.css'
 
 const socket = io('http://localhost:3000')
 
-const initialGameState: GameState = {
-  players: [],
-  viewState: 'lobby',
-  question: null,
-  settings: {
-    questionPhaseDuration: 0,
-    answerPhaseDuration: 0,
-    numberOfQuestions: 0,
-    selectedCategories: [],
-  },
-  phaseStartAt: 0,
-  answerSubmissions: {},
-  categories: [],
-}
-
 export const App = () => {
-  const [gameState, setGameState] = useState<GameState>(initialGameState)
+  const [gameState, setGameState] = useState<GameState>()
   const [playerId, setPlayerId] = useState<string>()
   const [username, setUsername] = useState<string>()
 
@@ -76,21 +60,8 @@ export const App = () => {
     socket.emit('start_game')
   }, [])
 
-  const phaseDuration =
-    gameState.viewState === 'question'
-      ? gameState.settings.questionPhaseDuration
-      : gameState.settings.answerPhaseDuration
-
-  const timeRemaining = useRemainingTime(gameState.phaseStartAt, phaseDuration)
-
-  const isHost = useMemo(
-    () => Boolean(gameState.players.find(({ id }) => id === playerId)?.isHost),
-    [gameState.players, playerId],
-  )
-
   const restartGame = useCallback(() => {
     socket.emit('restart_game')
-    setGameState(initialGameState)
   }, [])
 
   useEffect(() => {
@@ -103,18 +74,17 @@ export const App = () => {
     })
   }, [])
 
-  if (!username) {
-    return <JoinView onJoin={joinGame} />
+  if (!gameState || gameState.viewState === 'loading') {
+    return <h1>Loading...</h1>
   }
 
-  if (gameState.viewState === 'loading') {
-    return <h1>Loading...</h1>
+  if (!username) {
+    return <JoinView onJoin={joinGame} />
   }
 
   if (username && gameState.viewState === 'lobby') {
     return (
       <LobbyView
-        isHost={isHost}
         categories={gameState.categories}
         players={gameState.players}
         settings={gameState.settings}
@@ -124,29 +94,29 @@ export const App = () => {
     )
   }
 
-  if (playerId && gameState.viewState === 'question' && gameState.question) {
+  if (playerId && gameState.question && gameState.viewState === 'question') {
     return (
       <QuestionView
-        timeRemaining={timeRemaining}
+        phaseDuration={gameState.settings.questionPhaseDuration}
+        phaseStartAt={gameState.phaseStartAt}
         question={gameState.question}
-        onSelectAnswer={selectAnswer}
         selectedAnswer={gameState.answerSubmissions[playerId]}
         numberOfQuestions={gameState.settings.numberOfQuestions}
-        phaseDuration={phaseDuration}
+        onSelectAnswer={selectAnswer}
       />
     )
   }
 
-  if (playerId && gameState.viewState === 'answer' && gameState.question) {
+  if (playerId && gameState.question && gameState.viewState === 'answer') {
     return (
       <AnswerView
         playerId={playerId}
-        timeRemaining={timeRemaining}
+        phaseDuration={gameState.settings.answerPhaseDuration}
+        phaseStartAt={gameState.phaseStartAt}
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}
         question={gameState.question}
         numberOfQuestions={gameState.settings.numberOfQuestions}
-        phaseDuration={phaseDuration}
       />
     )
   }

@@ -5,7 +5,6 @@ import { ButtonGroup, Layout, PlayerList } from '../../components'
 import { CategoryList } from './components'
 
 type Props = {
-  isHost: boolean;
   players: Player[];
   categories: CategoryGroup[];
   settings: Settings;

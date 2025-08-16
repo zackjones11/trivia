@@ -1,5 +1,9 @@
 import type { GameState } from '../types.ts'
-import { ANSWER_PHASE_DURATION, INITIAL_SELECTED_CATEGORY, INITIAL_QUESTION_PHASE_DURATION } from './state.ts'
+import {
+  ANSWER_PHASE_DURATION,
+  INITIAL_SELECTED_CATEGORY,
+  INITIAL_QUESTION_PHASE_DURATION,
+} from './state.ts'
 
 export const restartGame = (gameState: GameState) => {
   gameState.viewState = 'lobby'

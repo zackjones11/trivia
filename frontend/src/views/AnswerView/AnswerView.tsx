@@ -4,22 +4,29 @@ import type { AnswerSubmissions, Player, Question } from '../../types'
 import styles from './AnswerView.module.css'
 import { QuestionList } from '../../components'
 import { PlayersAnswers } from './components'
+import { useMemo } from 'react'
+import { useRemainingTime } from '../../hooks'
 
 type Props = {
   question: Question;
   players: Player[];
   playerId: string;
-  timeRemaining: number;
+  phaseStartAt: number;
   phaseDuration: number;
   numberOfQuestions: number;
   answerSubmissions: AnswerSubmissions;
 };
 
 export const AnswerView = (props: Props) => {
-  const { phaseDuration, timeRemaining, players, question, answerSubmissions } =
+  const { phaseDuration, phaseStartAt, players, question, answerSubmissions } =
     props
 
-  const usersAnswer = answerSubmissions[props.playerId]
+  const usersAnswer = useMemo(
+    () => answerSubmissions[props.playerId],
+    [props.playerId, answerSubmissions],
+  )
+
+  const timeRemaining = useRemainingTime(phaseStartAt, phaseDuration)
 
   return (
     <Layout>
