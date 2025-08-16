@@ -16,7 +16,7 @@ export const PlayerList = ({ players }: Props) => (
             <span className="truncate">{player.username}</span>
           </div>
 
-          {player.isHost ? <span className={styles.pull}>Host</span> : null}
+          {player.isHost ? <span className={styles.pill}>Host</span> : null}
         </li>
       )
     })}
