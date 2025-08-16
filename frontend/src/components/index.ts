@@ -1,4 +1,5 @@
 export { Layout } from './Layout/Layout'
+export { Spinner } from './Spinner/Spinner'
 export { Countdown } from './Countdown/Countdown'
 export { PlayerList } from './PlayerList/PlayerList'
 export { ButtonGroup } from './ButtonGroup/ButtonGroup'

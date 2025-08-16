@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
 import type { GameState, Settings } from './types'
+import { Spinner } from './components'
 import {
   JoinView,
   LobbyView,
@@ -75,7 +76,7 @@ export const App = () => {
   }, [])
 
   if (!gameState || gameState.viewState === 'loading') {
-    return <h1>Loading...</h1>
+    return <Spinner />
   }
 
   if (!username) {
