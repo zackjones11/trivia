@@ -10,12 +10,14 @@ type Props = {
   players: Player[];
   playerId: string;
   timeRemaining: number;
+  phaseDuration: number;
   numberOfQuestions: number;
   answerSubmissions: AnswerSubmissions;
 };
 
 export const AnswerView = (props: Props) => {
-  const { timeRemaining, players, question, answerSubmissions } = props
+  const { phaseDuration, timeRemaining, players, question, answerSubmissions } =
+    props
 
   const usersAnswer = answerSubmissions[props.playerId]
 
@@ -27,7 +29,7 @@ export const AnswerView = (props: Props) => {
             Question {question.id} / {props.numberOfQuestions}
           </div>
           <div className={styles.countdownContainer}>
-            <Countdown seconds={timeRemaining} totalTime={10} />
+            <Countdown seconds={timeRemaining} totalTime={phaseDuration} />
           </div>
         </div>
 

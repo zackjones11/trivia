@@ -1,7 +1,7 @@
 import type { GameState } from '../types.ts'
 
 export const QUESTION_PHASE_DURATION = 10
-export const ANSWER_PHASE_DURATION = 10
+export const ANSWER_PHASE_DURATION = 8
 export const NUMBER_OF_QUESTIONS = 10
 
 export const createGameState = (): GameState => ({
@@ -12,7 +12,7 @@ export const createGameState = (): GameState => ({
     selectedCategories: ['general_knowledge_general'],
     questionPhaseDuration: QUESTION_PHASE_DURATION,
     answerPhaseDuration: ANSWER_PHASE_DURATION,
-    numberOfQuestions: NUMBER_OF_QUESTIONS
+    numberOfQuestions: NUMBER_OF_QUESTIONS,
   },
   questions: [],
   currentQuestionIndex: -1,

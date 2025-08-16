@@ -114,6 +114,7 @@ export const App = () => {
         onSelectAnswer={selectAnswer}
         selectedAnswer={gameState.answerSubmissions[playerId]}
         numberOfQuestions={gameState.numberOfQuestions}
+        phaseDuration={gameState.phaseDuration}
       />
     )
   }
@@ -127,6 +128,7 @@ export const App = () => {
         answerSubmissions={gameState.answerSubmissions}
         question={gameState.question}
         numberOfQuestions={gameState.numberOfQuestions}
+        phaseDuration={gameState.phaseDuration}
       />
     )
   }

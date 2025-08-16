@@ -7,6 +7,7 @@ type Props = {
   question: Question;
   timeRemaining: number;
   numberOfQuestions: number;
+  phaseDuration: number;
   selectedAnswer: string | undefined;
   onSelectAnswer: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -14,7 +15,13 @@ type Props = {
 };
 
 export const QuestionView = (props: Props) => {
-  const { timeRemaining, question, selectedAnswer, onSelectAnswer } = props
+  const {
+    phaseDuration,
+    timeRemaining,
+    question,
+    selectedAnswer,
+    onSelectAnswer,
+  } = props
 
   return (
     <Layout>
@@ -25,7 +32,7 @@ export const QuestionView = (props: Props) => {
           </div>
 
           <div className={styles.countdownContainer}>
-            <Countdown seconds={timeRemaining} totalTime={10} />
+            <Countdown seconds={timeRemaining} totalTime={phaseDuration} />
           </div>
         </div>
 
