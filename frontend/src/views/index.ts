@@ -1,4 +1,4 @@
-export { JoinView } from './JoinView'
+export { JoinView } from './JoinView/JoinView'
 export { LobbyView } from './LobbyView'
 export { QuestionView } from './QuestionView'
 export { AnswerView } from './AnswerView'
