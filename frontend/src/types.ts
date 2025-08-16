@@ -16,14 +16,12 @@ export type Question = {
 
 export type AnswerSubmissions = Record<Player['id'], string>;
 
-type Category = {
-  value: string;
-  text: string;
-};
-
 export type CategoryGroup = {
   label: string;
-  subCategories: Category[];
+  subCategories: {
+    value: string;
+    text: string;
+  }[];
 };
 
 export type Settings = {

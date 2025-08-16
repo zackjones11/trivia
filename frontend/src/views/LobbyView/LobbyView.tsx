@@ -3,6 +3,7 @@ import type { CategoryGroup, Player, Settings } from '../../types'
 import styles from './LobbyView.module.css'
 import { ButtonGroup, Layout, PlayerList } from '../../components'
 import { CategoryList } from './components'
+import { useCallback } from 'react'
 
 type Props = {
   players: Player[];
@@ -16,39 +17,42 @@ export const LobbyView = (props: Props) => {
   const { categories, players, settings, onStartGame, onChangeSettings } =
     props
 
-  const handleChangeCategory = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    const selectedValue = event.currentTarget.value
+  const handleChangeCategory = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const selectedValue = event.currentTarget.value
 
-    if (settings.selectedCategories.includes(selectedValue)) {
-      const newCategories = settings.selectedCategories.filter(
-        (category) => category !== selectedValue,
-      )
-      onChangeSettings({ selectedCategories: newCategories })
-      return
-    }
+      if (settings.selectedCategories.includes(selectedValue)) {
+        const newCategories = settings.selectedCategories.filter(
+          (category) => category !== selectedValue,
+        )
+        onChangeSettings({ selectedCategories: newCategories })
+        return
+      }
 
-    onChangeSettings({
-      selectedCategories: [...settings.selectedCategories, selectedValue],
-    })
-  }
+      onChangeSettings({
+        selectedCategories: [...settings.selectedCategories, selectedValue],
+      })
+    },
+    [onChangeSettings, settings.selectedCategories],
+  )
 
-  const handleChangeNumberOfQuestions = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    onChangeSettings({
-      numberOfQuestions: Number(event.currentTarget.value),
-    })
-  }
+  const handleChangeNumberOfQuestions = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      onChangeSettings({
+        numberOfQuestions: Number(event.currentTarget.value),
+      })
+    },
+    [onChangeSettings],
+  )
 
-  const handleChangeDuration = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    onChangeSettings({
-      questionPhaseDuration: Number(event.currentTarget.value),
-    })
-  }
+  const handleChangeDuration = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      onChangeSettings({
+        questionPhaseDuration: Number(event.currentTarget.value),
+      })
+    },
+    [onChangeSettings],
+  )
 
   return (
     <Layout>

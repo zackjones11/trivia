@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { PlayerList } from '../../components'
 import { Layout } from '../../components'
 import type { Player } from '../../types'
@@ -10,7 +11,10 @@ type Props = {
 };
 
 export const EndView = ({ players, onRestart }: Props) => {
-  const playersSorted = players.sort((a, b) => b.score - a.score)
+  const playersSorted = useMemo(
+    () => players.sort((a, b) => b.score - a.score),
+    [players],
+  )
 
   return (
     <Layout>
