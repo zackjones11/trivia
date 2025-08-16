@@ -1,18 +1,20 @@
 import type { GameState } from '../types.ts'
 
-export const QUESTION_PHASE_DURATION = 10
 export const ANSWER_PHASE_DURATION = 5
-export const NUMBER_OF_QUESTIONS = 10
+
+export const INITIAL_QUESTION_PHASE_DURATION = 10
+export const INITIAL_NUMBER_OF_QUESTIONS = 10
+export const INITIAL_SELECTED_CATEGORY = ['general_knowledge_general']
 
 export const createGameState = (): GameState => ({
   viewState: 'lobby',
   players: {},
   answerSubmissions: {},
   settings: {
-    selectedCategories: ['general_knowledge_general'],
-    questionPhaseDuration: QUESTION_PHASE_DURATION,
+    selectedCategories: INITIAL_SELECTED_CATEGORY,
+    questionPhaseDuration: INITIAL_QUESTION_PHASE_DURATION,
+    numberOfQuestions: INITIAL_NUMBER_OF_QUESTIONS,
     answerPhaseDuration: ANSWER_PHASE_DURATION,
-    numberOfQuestions: NUMBER_OF_QUESTIONS,
   },
   questions: [],
   currentQuestionIndex: -1,
