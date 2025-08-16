@@ -13,6 +13,7 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
       selectedCategories,
       questionPhaseDuration,
       answerPhaseDuration,
+      numberOfQuestions
     },
   } = gameState
 
@@ -35,5 +36,6 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     answerSubmissions,
     categories,
     selectedCategories,
+    numberOfQuestions
   })
 }

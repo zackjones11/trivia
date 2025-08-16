@@ -11,6 +11,7 @@ type Settings = {
   selectedCategories: string[];
   questionPhaseDuration: number;
   answerPhaseDuration: number;
+  numberOfQuestions: number;
 };
 
 export type Question = {

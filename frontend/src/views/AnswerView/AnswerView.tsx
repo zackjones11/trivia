@@ -10,6 +10,7 @@ type Props = {
   players: Player[];
   playerId: string;
   timeRemaining: number;
+  numberOfQuestions: number;
   answerSubmissions: AnswerSubmissions;
 };
 
@@ -23,7 +24,7 @@ export const AnswerView = (props: Props) => {
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
-            Question {question.id} / 10
+            Question {question.id} / {props.numberOfQuestions}
           </div>
           <div className={styles.countdownContainer}>
             <Countdown seconds={timeRemaining} totalTime={10} />

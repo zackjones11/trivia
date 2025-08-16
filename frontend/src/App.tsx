@@ -21,6 +21,7 @@ const initialGameState: GameState = {
   question: null,
   phaseDuration: 0,
   phaseStartAt: 0,
+  numberOfQuestions: 0,
   answerSubmissions: {},
   categories: [],
   selectedCategories: [],
@@ -112,6 +113,7 @@ export const App = () => {
         question={gameState.question}
         onSelectAnswer={selectAnswer}
         selectedAnswer={gameState.answerSubmissions[playerId]}
+        numberOfQuestions={gameState.numberOfQuestions}
       />
     )
   }
@@ -124,6 +126,7 @@ export const App = () => {
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}
         question={gameState.question}
+        numberOfQuestions={gameState.numberOfQuestions}
       />
     )
   }

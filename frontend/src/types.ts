@@ -33,6 +33,7 @@ export type GameState = {
   question: Question | null;
   phaseStartAt: number;
   phaseDuration: number;
+  numberOfQuestions: number;
   answerSubmissions: AnswerSubmissions;
   selectedCategories: string[];
 };

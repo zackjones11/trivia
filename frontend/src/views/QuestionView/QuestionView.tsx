@@ -6,6 +6,7 @@ import { Countdown, Layout, QuestionList } from '../../components'
 type Props = {
   question: Question;
   timeRemaining: number;
+  numberOfQuestions: number;
   selectedAnswer: string | undefined;
   onSelectAnswer: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -20,7 +21,7 @@ export const QuestionView = (props: Props) => {
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
-            Question {question.id} / 10
+            Question {question.id} / {props.numberOfQuestions}
           </div>
 
           <div className={styles.countdownContainer}>
