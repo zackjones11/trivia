@@ -10,7 +10,7 @@ import {
   EndView,
 } from './views'
 
-import './App.module.css'
+import './styles.css'
 import { useRemainingTime } from './useRemainingTime'
 
 const socket = io('http://localhost:3000')
