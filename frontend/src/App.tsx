@@ -8,6 +8,7 @@ import {
   QuestionView,
   AnswerView,
   EndView,
+  type Settings,
 } from './views'
 import { useRemainingTime } from './hooks'
 
@@ -21,6 +22,7 @@ const initialGameState: GameState = {
   question: null,
   phaseDuration: 0,
   phaseStartAt: 0,
+  questionPhaseDuration: 0,
   numberOfQuestions: 0,
   answerSubmissions: {},
   categories: [],
@@ -32,8 +34,21 @@ export const App = () => {
   const [playerId, setPlayerId] = useState<string>()
   const [username, setUsername] = useState<string>()
 
-  const changeCategory = useCallback((newCategories: string[]) => {
-    socket.emit('change_category', newCategories)
+  const changeSettings = useCallback((settings: Partial<Settings>) => {
+    if (settings.selectedCategories) {
+      socket.emit('change_category', settings.selectedCategories)
+    }
+
+    if (settings.numberOfQuestions) {
+      socket.emit('change_number_of_questions', settings.numberOfQuestions)
+    }
+
+    if (settings.questionPhaseDuration) {
+      socket.emit(
+        'change_question_phase_duration',
+        settings.questionPhaseDuration,
+      )
+    }
   }, [])
 
   const selectAnswer = useCallback(
@@ -98,10 +113,14 @@ export const App = () => {
       <LobbyView
         isHost={isHost}
         categories={gameState.categories}
-        selectedCategories={gameState.selectedCategories}
         players={gameState.players}
+        settings={{
+          numberOfQuestions: gameState.numberOfQuestions,
+          selectedCategories: gameState.selectedCategories,
+          questionPhaseDuration: gameState.questionPhaseDuration,
+        }}
+        onChangeSettings={changeSettings}
         onStartGame={startGame}
-        onChangeCategory={changeCategory}
       />
     )
   }

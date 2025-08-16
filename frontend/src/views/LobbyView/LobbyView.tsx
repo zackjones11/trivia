@@ -4,38 +4,57 @@ import styles from './LobbyView.module.css'
 import { ButtonGroup, Layout, PlayerList } from '../../components'
 import { CategoryList } from './components'
 
+export type Settings = {
+  selectedCategories: string[];
+  numberOfQuestions: number;
+  questionPhaseDuration: number;
+};
+
 type Props = {
   isHost: boolean;
   players: Player[];
-  selectedCategories: string[];
   categories: CategoryGroup[];
+  settings: Settings;
   onStartGame: () => void;
-  onChangeCategory: (newCategories: string[]) => void;
+  onChangeSettings: (settings: Partial<Settings>) => void;
 };
 
 export const LobbyView = (props: Props) => {
-  const {
-    selectedCategories,
-    categories,
-    players,
-    onStartGame,
-    onChangeCategory,
-  } = props
+  const { categories, players, settings, onStartGame, onChangeSettings } =
+    props
 
   const handleChangeCategory = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const selectedValue = event.currentTarget.value
 
-    if (selectedCategories.includes(selectedValue)) {
-      const newCategories = selectedCategories.filter(
+    if (settings.selectedCategories.includes(selectedValue)) {
+      const newCategories = settings.selectedCategories.filter(
         (category) => category !== selectedValue,
       )
-      onChangeCategory(newCategories)
+      onChangeSettings({ selectedCategories: newCategories })
       return
     }
 
-    onChangeCategory([...selectedCategories, selectedValue])
+    onChangeSettings({
+      selectedCategories: [...settings.selectedCategories, selectedValue],
+    })
+  }
+
+  const handleChangeNumberOfQuestions = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    onChangeSettings({
+      numberOfQuestions: Number(event.currentTarget.value),
+    })
+  }
+
+  const handleChangeDuration = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    onChangeSettings({
+      questionPhaseDuration: Number(event.currentTarget.value),
+    })
   }
 
   return (
@@ -65,18 +84,27 @@ export const LobbyView = (props: Props) => {
               <CategoryList
                 onChange={handleChangeCategory}
                 categories={categories}
-                selectedCategories={selectedCategories}
+                selectedCategories={settings.selectedCategories}
               />
             </div>
 
             <div>
               <div className={styles.stepHeadline}>Step 2</div>
               <div className={styles.subLine}>Number of questions</div>
-              <ButtonGroup items={['5', '10', '15', '20']} />
+              <ButtonGroup
+                items={[5, 10, 15, 20]}
+                selected={settings.numberOfQuestions}
+                onChange={handleChangeNumberOfQuestions}
+              />
 
               <div className={styles.stepHeadline}>Step 3</div>
               <div className={styles.subLine}>Time per question</div>
-              <ButtonGroup items={['10 seconds', '15 seconds', '20 seconds']} />
+              <ButtonGroup
+                suffix=" seconds"
+                items={[10, 15, 20]}
+                selected={settings.questionPhaseDuration}
+                onChange={handleChangeDuration}
+              />
             </div>
           </div>
 

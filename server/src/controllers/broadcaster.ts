@@ -33,6 +33,7 @@ export const broadcastGameStateChange = (io: Server, gameState: GameState) => {
     question,
     phaseStartAt,
     phaseDuration,
+    questionPhaseDuration,
     answerSubmissions,
     categories,
     selectedCategories,

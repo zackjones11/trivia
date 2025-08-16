@@ -1,5 +1,11 @@
 @reference "tailwindcss";
 
+.container {
+  @apply flex;
+  @apply flex-wrap;
+  @apply gap-2;
+}
+
 .button {
   @apply text-left;
   @apply flex;

@@ -5,7 +5,11 @@ import { startGame } from './controllers/start.ts'
 import { restartGame } from './controllers/reset.ts'
 import { broadcastGameStateChange } from './controllers/broadcaster.ts'
 import { isLastPlayer } from './controllers/state.ts'
-import { changeCategories } from './controllers/category.ts'
+import {
+  changeCategories,
+  changeNumberOfQuestions,
+  changeQuestionPhaseDuration,
+} from './controllers/settings.ts'
 import { submitAnswer } from './controllers/answer.ts'
 
 export const createHandlers = (
@@ -31,6 +35,19 @@ export const createHandlers = (
     changeCategories(gameState, newCategories)
     broadcastGameStateChange(io, gameState)
   })
+
+  socket.on('change_number_of_questions', (numberOfQuestions: number) => {
+    changeNumberOfQuestions(gameState, numberOfQuestions)
+    broadcastGameStateChange(io, gameState)
+  })
+
+  socket.on(
+    'change_question_phase_duration',
+    (questionPhaseDuration: number) => {
+      changeQuestionPhaseDuration(gameState, questionPhaseDuration)
+      broadcastGameStateChange(io, gameState)
+    },
+  )
 
   socket.on('restart_game', () => {
     restartGame(gameState)
