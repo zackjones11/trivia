@@ -9,9 +9,9 @@ import {
   AnswerView,
   EndView,
 } from './views'
+import { useRemainingTime } from './hooks'
 
 import './styles.css'
-import { useRemainingTime } from './useRemainingTime'
 
 const socket = io('http://localhost:3000')
 
