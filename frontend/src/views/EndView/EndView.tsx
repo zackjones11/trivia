@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { PlayerList } from '../../components'
 import { Layout } from '../../components'
 import type { Player } from '../../types'
@@ -11,10 +11,21 @@ type Props = {
 };
 
 export const EndView = ({ players, onRestart }: Props) => {
+  const [showRecap, setShowRecap] = useState<number>()
+  
   const playersSorted = useMemo(
     () => players.sort((a, b) => b.score - a.score),
     [players],
   )
+
+  const toggleRecap = useCallback((index: number) => {
+    if (index === showRecap) {
+      setShowRecap(undefined)
+      return
+    }
+
+    setShowRecap(index)
+  }, [showRecap])
 
   return (
     <Layout>
@@ -40,8 +51,16 @@ export const EndView = ({ players, onRestart }: Props) => {
 
           <PlayerList
             players={playersSorted}
-            endContent={({ score }) => (
-              <span className={styles.leaderboardItemScore}>{score}/10</span>
+            endContent={({ score }, index) => (
+              <div className={styles.playerEndContent}>
+                <button
+                  className={styles.recapButton}
+                  onClick={() => toggleRecap(index)}
+                >
+                  {showRecap === index ? 'Hide' : 'Show'} recap
+                </button>
+                <span className={styles.score}>{score}/10</span>
+              </div>
             )}
           />
         </div>

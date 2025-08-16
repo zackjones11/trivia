@@ -63,3 +63,29 @@
   @apply p-4;
   @apply bg-gray-950;
 }
+
+.playerEndContent {
+  @apply flex;
+  @apply gap-2;
+  @apply items-center;
+}
+
+.score {
+  @apply text-gray-300;
+  @apply text-sm;
+  @apply tabular-nums;
+}
+
+.recapButton {
+  @apply rounded-lg;
+  @apply px-2;
+  @apply py-1;
+  @apply text-xs;
+  @apply font-medium;
+  @apply transition;
+  @apply bg-gray-900;
+  @apply border;
+  @apply border-gray-700;
+  @apply hover:bg-gray-800;
+  @apply text-gray-100;
+}

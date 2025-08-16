@@ -4,7 +4,7 @@ import styles from './PlayerList.module.css'
 
 type Props = {
   players: Player[];
-  endContent: (player: Player) => React.ReactElement;
+  endContent: (player: Player, index: number) => React.ReactElement;
 };
 
 export const PlayerList = ({ players, endContent }: Props) => (
@@ -18,7 +18,7 @@ export const PlayerList = ({ players, endContent }: Props) => (
             <span className="truncate">{player.username}</span>
           </div>
 
-          {endContent(player)}
+          {endContent(player, index)}
         </li>
       )
     })}
