@@ -1,7 +1,7 @@
 import type { Question } from '../../types'
 
 import styles from './QuestionView.module.css'
-import { Countdown, QuestionList } from '../../components'
+import { Countdown, Layout, QuestionList } from '../../components'
 
 type Props = {
   question: Question;
@@ -16,7 +16,7 @@ export const QuestionView = (props: Props) => {
   const { timeRemaining, question, selectedAnswer, onSelectAnswer } = props
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
@@ -36,6 +36,6 @@ export const QuestionView = (props: Props) => {
           onSelect={onSelectAnswer}
         />
       </div>
-    </div>
+    </Layout>
   )
 }

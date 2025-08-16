@@ -1,4 +1,5 @@
 import { PlayerList } from '../../components'
+import { Layout } from '../../components'
 import type { Player } from '../../types'
 
 import styles from './EndView.module.css'
@@ -12,7 +13,7 @@ export const EndView = ({ players, onRestart }: Props) => {
   const playersSorted = players.sort((a, b) => b.score - a.score)
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <header className={styles.header}>
         <button className={styles.button} onClick={onRestart}>
           New Game
@@ -41,6 +42,6 @@ export const EndView = ({ players, onRestart }: Props) => {
           />
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

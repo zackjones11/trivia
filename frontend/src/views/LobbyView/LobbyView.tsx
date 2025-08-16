@@ -1,7 +1,7 @@
 import type { CategoryGroup, Player } from '../../types'
 
 import styles from './LobbyView.module.css'
-import { ButtonGroup, PlayerList } from '../../components'
+import { ButtonGroup, Layout, PlayerList } from '../../components'
 import { CategoryList } from './components'
 
 type Props = {
@@ -39,7 +39,7 @@ export const LobbyView = (props: Props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <div className={styles.grid}>
         <div className={styles.playersContainer}>
           <div className={styles.headline}>Players</div>
@@ -87,6 +87,6 @@ export const LobbyView = (props: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

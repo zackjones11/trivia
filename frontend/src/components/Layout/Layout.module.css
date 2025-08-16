@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.container {
+  @apply max-w-6xl;
+  @apply w-[80vw];
+  @apply mx-auto;
+  @apply px-4;
+  @apply pb-16;
+}

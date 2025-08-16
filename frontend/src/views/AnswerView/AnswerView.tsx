@@ -1,4 +1,4 @@
-import { Countdown } from '../../components/Countdown/Countdown'
+import { Layout, Countdown } from '../../components'
 import type { AnswerSubmissions, Player, Question } from '../../types'
 
 import styles from './AnswerView.module.css'
@@ -19,7 +19,7 @@ export const AnswerView = (props: Props) => {
   const usersAnswer = answerSubmissions[props.playerId]
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
@@ -40,6 +40,6 @@ export const AnswerView = (props: Props) => {
           correctAnswer={question.correctAnswer}
         />
       </div>
-    </div>
+    </Layout>
   )
 }
