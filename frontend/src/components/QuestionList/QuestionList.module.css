@@ -1,0 +1,65 @@
+@reference "tailwindcss";
+
+.container {
+  @apply grid;
+  @apply md:grid-cols-2;
+  @apply gap-3;
+  @apply mt-4;
+}
+
+.button {
+  @apply text-left;
+  @apply border;
+  @apply rounded-xl;
+  @apply p-4;
+  @apply md:p-5;
+  @apply min-h-[48px];
+  @apply transition;
+  @apply active:scale-[0.98];
+  @apply active:opacity-90;
+  @apply motion-reduce:scale-100;
+  @apply motion-reduce:opacity-100;
+  @apply border-gray-800;
+  @apply hover:bg-gray-800;
+}
+
+.buttonSelected {
+  @apply text-left;
+  @apply border;
+  @apply rounded-xl;
+  @apply p-4;
+  @apply md:p-5;
+  @apply min-h-[48px];
+  @apply transition;
+  @apply active:scale-[0.98];
+  @apply active:opacity-90;
+  @apply motion-reduce:scale-100;
+  @apply motion-reduce:opacity-100;
+  @apply border-indigo-500;
+  @apply ring-2;
+  @apply ring-indigo-400;
+  @apply bg-gray-900;
+}
+
+.content {
+  @apply flex;
+  @apply items-center;
+  @apply gap-3;
+}
+
+.text {
+  @apply text-gray-100;
+}
+
+.count {
+  @apply w-6;
+  @apply h-6;
+  @apply rounded-full;
+  @apply bg-gray-700/50;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply text-sm;
+  @apply text-gray-300;
+  @apply font-medium;
+}

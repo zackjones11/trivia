@@ -31,21 +31,13 @@ export const App = () => {
   const [playerId, setPlayerId] = useState<string>()
   const [username, setUsername] = useState<string>()
 
-  const changeCategory = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedCategories = Array.from(
-        event.target.selectedOptions,
-        (option) => option.value,
-      )
-      socket.emit('change_category', selectedCategories)
-    },
-    [],
-  )
+  const changeCategory = useCallback((newCategories: string[]) => {
+    socket.emit('change_category', newCategories)
+  }, [])
 
   const selectAnswer = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       const newAnswer = event.currentTarget.value
-
       socket.emit('submit_answer', newAnswer)
     },
     [],
@@ -113,12 +105,13 @@ export const App = () => {
     )
   }
 
-  if (gameState.viewState === 'question' && gameState.question) {
+  if (playerId && gameState.viewState === 'question' && gameState.question) {
     return (
       <QuestionView
         timeRemaining={timeRemaining}
         question={gameState.question}
         onSelectAnswer={selectAnswer}
+        selectedAnswer={gameState.answerSubmissions[playerId]}
       />
     )
   }

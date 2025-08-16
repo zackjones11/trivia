@@ -22,8 +22,8 @@ export type Question = {
 
 export type Timers = {
   questionPhaseTimeoutId: NodeJS.Timeout | null;
-  answerPhaseTimeoutId: NodeJS.Timeout | null
-}
+  answerPhaseTimeoutId: NodeJS.Timeout | null;
+};
 
 export type GameState = {
   viewState: ViewState;
@@ -33,5 +33,5 @@ export type GameState = {
   questions: Question[];
   currentQuestionIndex: number;
   phaseStartAt: number;
-  timers: Timers
+  timers: Timers;
 };
