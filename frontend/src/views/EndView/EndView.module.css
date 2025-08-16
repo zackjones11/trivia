@@ -1,0 +1,72 @@
+@reference "tailwindcss";
+
+.container {
+  @apply max-w-6xl;
+  @apply w-[80vw];
+  @apply mx-auto;
+  @apply px-4;
+  @apply pb-16;
+}
+
+.header {
+  @apply flex;
+  @apply items-center;
+  @apply justify-end;
+  @apply gap-4;
+}
+
+.button {
+  @apply rounded-xl;
+  @apply px-4;
+  @apply py-2;
+  @apply text-sm;
+  @apply font-medium;
+  @apply transition;
+  @apply bg-gray-900;
+  @apply border;
+  @apply border-gray-700;
+  @apply hover:bg-gray-800;
+  @apply text-gray-100;
+  @apply mb-6;
+}
+
+.headline {
+  @apply text-sm;
+  @apply font-medium;
+  @apply text-gray-200;
+  @apply mb-3;
+}
+
+.grid {
+  @apply grid;
+  @apply lg:grid-cols-2;
+  @apply gap-6;
+  @apply mt-5;
+}
+
+.left {
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-4;
+  @apply bg-gray-950;
+  @apply mb-6;
+  @apply text-gray-300;
+}
+
+.gif {
+  @apply rounded-xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply w-full;
+  @apply h-auto;
+  @apply object-contain;
+}
+
+.right {
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-4;
+  @apply bg-gray-950;
+}
