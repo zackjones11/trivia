@@ -1,0 +1,48 @@
+@reference "tailwindcss";
+
+.container {
+  @apply mt-4;
+  @apply text-sm;
+  @apply text-gray-300;
+}
+
+.headline {
+  @apply mb-1;
+  @apply text-gray-400;
+}
+
+.list {
+  @apply grid;
+  @apply sm:grid-cols-2;
+  @apply gap-1;
+}
+
+.item {
+  @apply flex;
+  @apply items-center;
+  @apply gap-2;
+}
+
+.check {
+  @apply inline-flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply w-5;
+  @apply h-5;
+  @apply rounded;
+  @apply bg-emerald-600;
+}
+
+.cross {
+  @apply inline-flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply w-5;
+  @apply h-5;
+  @apply rounded;
+  @apply bg-red-600;
+}
+
+.username {
+  @apply text-gray-300;
+}

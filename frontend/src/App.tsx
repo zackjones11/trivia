@@ -124,7 +124,6 @@ export const App = () => {
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}
         question={gameState.question}
-        username={username}
       />
     )
   }

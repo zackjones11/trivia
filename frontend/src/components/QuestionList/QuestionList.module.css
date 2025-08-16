@@ -23,6 +23,42 @@
   @apply hover:bg-gray-800;
 }
 
+.buttonGreen {
+  @apply text-left;
+  @apply border;
+  @apply rounded-xl;
+  @apply p-4;
+  @apply md:p-5;
+  @apply min-h-[48px];
+  @apply transition;
+  @apply active:scale-[0.98];
+  @apply active:opacity-90;
+  @apply motion-reduce:scale-100;
+  @apply motion-reduce:opacity-100;
+  @apply border-emerald-600;
+  @apply ring-2;
+  @apply ring-emerald-400;
+  @apply bg-emerald-900/20;
+}
+
+.buttonRed {
+  @apply text-left;
+  @apply border;
+  @apply rounded-xl;
+  @apply p-4;
+  @apply md:p-5;
+  @apply min-h-[48px];
+  @apply transition;
+  @apply active:scale-[0.98];
+  @apply active:opacity-90;
+  @apply motion-reduce:scale-100;
+  @apply motion-reduce:opacity-100;
+  @apply border-red-600;
+  @apply ring-2;
+  @apply ring-red-400;
+  @apply bg-red-900/20;
+}
+
 .buttonSelected {
   @apply text-left;
   @apply border;

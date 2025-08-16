@@ -1,0 +1,36 @@
+@reference "tailwindcss";
+
+.container {
+  @apply max-w-6xl;
+  @apply w-[80vw];
+  @apply mx-auto;
+  @apply px-4;
+  @apply pb-16;
+}
+
+.box {
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-4;
+  @apply sm:p-6;
+  @apply bg-gray-950;
+}
+
+.header {
+  @apply flex;
+  @apply items-center;
+  @apply justify-between;
+  @apply gap-3;
+}
+
+.questionNumber {
+  @apply text-sm;
+  @apply text-gray-400;
+}
+
+.questionTitle {
+  @apply mt-3;
+  @apply text-xl;
+  @apply text-gray-100;
+}
