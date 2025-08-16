@@ -30,6 +30,7 @@ export const Countdown = ({ seconds, totalTime }: Props) => {
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
           strokeLinecap="round"
+          className={styles.animate}
         />
       </svg>
 

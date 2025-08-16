@@ -21,3 +21,7 @@
   @apply font-bold;
   @apply text-gray-100;
 }
+
+.animate {
+  @apply transition-all;
+}
