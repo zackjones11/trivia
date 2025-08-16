@@ -1,0 +1,50 @@
+@reference "tailwindcss";
+
+.container {
+  @apply absolute;
+  @apply z-10;
+  @apply rounded-2xl;
+  @apply border;
+  @apply border-gray-800;
+  @apply p-4;
+  @apply bg-gray-950;
+  @apply text-xs;
+  @apply text-gray-300;
+  @apply shadow-lg;
+  @apply min-w-[220px];
+  @apply right-0;
+  @apply top-11;
+}
+
+.item {
+  @apply flex;
+  @apply items-start;
+  @apply justify-between;
+  @apply gap-2;
+}
+
+.count {
+  @apply text-gray-400;
+}
+
+.incorrect {
+  @apply flex-1;
+  @apply truncate;
+  @apply text-gray-300;
+}
+
+.correct {
+  @apply flex-1;
+  @apply truncate;
+  @apply text-emerald-300;
+}
+
+.crossIcon {
+  @apply shrink-0;
+  @apply text-red-400;
+}
+
+.checkIcon {
+  @apply shrink-0;
+  @apply text-emerald-400;
+}

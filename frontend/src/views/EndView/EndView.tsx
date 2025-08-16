@@ -4,6 +4,7 @@ import { Layout } from '../../components'
 import type { Player } from '../../types'
 
 import styles from './EndView.module.css'
+import { RecapPopup } from './components'
 
 type Props = {
   players: Player[];
@@ -12,20 +13,23 @@ type Props = {
 
 export const EndView = ({ players, onRestart }: Props) => {
   const [showRecap, setShowRecap] = useState<number>()
-  
+
   const playersSorted = useMemo(
     () => players.sort((a, b) => b.score - a.score),
     [players],
   )
 
-  const toggleRecap = useCallback((index: number) => {
-    if (index === showRecap) {
-      setShowRecap(undefined)
-      return
-    }
+  const toggleRecap = useCallback(
+    (index: number) => {
+      if (index === showRecap) {
+        setShowRecap(undefined)
+        return
+      }
 
-    setShowRecap(index)
-  }, [showRecap])
+      setShowRecap(index)
+    },
+    [showRecap],
+  )
 
   return (
     <Layout>
@@ -59,7 +63,10 @@ export const EndView = ({ players, onRestart }: Props) => {
                 >
                   {showRecap === index ? 'Hide' : 'Show'} recap
                 </button>
+
                 <span className={styles.score}>{score}/10</span>
+
+                {showRecap === index && <RecapPopup />}
               </div>
             )}
           />
