@@ -27,6 +27,12 @@
   @apply mb-3;
 }
 
+.warning {
+  @apply text-xs;
+  @apply tracking-wide;
+  @apply text-gray-400;
+}
+
 .playersContainer {
   @apply rounded-2xl;
   @apply border;
@@ -77,6 +83,15 @@
   @apply text-sm;
   @apply font-medium;
   @apply transition;
+
+  &:disabled {
+    @apply bg-gray-800;
+    @apply text-gray-500;
+    @apply border;
+    @apply border-gray-700;
+    @apply cursor-not-allowed;
+    @apply opacity-60;
+  }
 }
 
 .pill {

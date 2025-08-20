@@ -86,6 +86,7 @@ export const App = () => {
   if (username && gameState.viewState === 'lobby') {
     return (
       <LobbyView
+        playerId={playerId}
         categories={gameState.categories}
         players={gameState.players}
         settings={gameState.settings}
