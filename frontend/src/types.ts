@@ -18,10 +18,7 @@ export type AnswerSubmissions = Record<Player['id'], string>;
 
 export type CategoryGroup = {
   label: string;
-  subCategories: {
-    value: string;
-    text: string;
-  }[];
+  subCategories: string[];
 };
 
 export type Settings = {

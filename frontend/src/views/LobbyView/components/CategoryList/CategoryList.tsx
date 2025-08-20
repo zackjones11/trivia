@@ -21,17 +21,14 @@ export const CategoryList = ({
         {categoryGroup.subCategories.map((option) => (
           <button
             onClick={onChange}
-            value={option.value}
+            value={option}
             className={classnames({
-              [styles.categoryItem]: !selectedCategories.includes(option.value),
-              [styles.categoryItemSelected]: selectedCategories.includes(
-                option.value,
-              ),
+              [styles.categoryItem]: !selectedCategories.includes(option),
+              [styles.categoryItemSelected]:
+                selectedCategories.includes(option),
             })}
           >
-            <span>
-              {categoryGroup.label}: {option.text}
-            </span>
+            <span>{option}</span>
           </button>
         ))}
       </div>

@@ -4,7 +4,7 @@ export const ANSWER_PHASE_DURATION = 5
 
 export const INITIAL_QUESTION_PHASE_DURATION = 10
 export const INITIAL_NUMBER_OF_QUESTIONS = 10
-export const INITIAL_SELECTED_CATEGORY = ['general_knowledge_general']
+export const INITIAL_SELECTED_CATEGORY = ['General Knowledge: General']
 
 export const createGameState = (): GameState => ({
   viewState: 'lobby',

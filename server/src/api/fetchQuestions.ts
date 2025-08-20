@@ -1,10 +1,18 @@
+import type { Question } from '../types.ts'
+
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 const API_ENDPOINT =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
 
-import type { Question } from '../types.ts'
+type Candidate = {
+  content: {
+    parts: { text: string }[];
+  };
+};
 
-const NUMBER_OF_QUESTIONS = 10
+type Response = {
+  candidates: Candidate[];
+};
 
 const getPrompt = (numberOfQuestions: number, category: string) => {
   return `Generate ${numberOfQuestions} multiple-choice and unique trivia questions about ${category}.
@@ -26,13 +34,28 @@ const getPrompt = (numberOfQuestions: number, category: string) => {
     }`
 }
 
+// Mock data:
+// return Promise.resolve([
+//   {
+//     id: 1,
+//     title: 'What is the capital of England?',
+//     options: ['Berlin', 'Madrid', 'Paris', 'London'],
+//     correctAnswer: 'London',
+//   },
+//   {
+//     id: 2,
+//     title: 'What is the capital of Germany?',
+//     options: ['Berlin', 'Madrid', 'Paris', 'London'],
+//     correctAnswer: 'Berlin',
+//   },
+// ])
+
 export const fetchQuestions = async (
+  numberOfQuestions: number,
   categories: string[],
 ): Promise<Question[]> => {
-  const text = getPrompt(
-    NUMBER_OF_QUESTIONS,
-    categories.join(', ').replaceAll('_', ' '),
-  )
+  const text = getPrompt(numberOfQuestions, categories.join(', '))
+
   const requestBody = {
     contents: [
       {
@@ -64,22 +87,7 @@ export const fetchQuestions = async (
     )
   }
 
-  const data = (await response.json()) as any
+  const data = (await response.json()) as Response
 
   return JSON.parse(data.candidates[0].content.parts[0].text)
-
-  // return Promise.resolve([
-  //   {
-  //     id: 1,
-  //     title: 'What is the capital of England?',
-  //     options: ['Berlin', 'Madrid', 'Paris', 'London'],
-  //     correctAnswer: 'London',
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'What is the capital of Germany?',
-  //     options: ['Berlin', 'Madrid', 'Paris', 'London'],
-  //     correctAnswer: 'Berlin',
-  //   },
-  // ])
 }

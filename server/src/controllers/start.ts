@@ -10,6 +10,7 @@ export const startGame = async (io: Server, gameState: GameState) => {
   broadcastGameStateChange(io, gameState)
 
   gameState.questions = await fetchQuestions(
+    gameState.settings.numberOfQuestions,
     gameState.settings.selectedCategories,
   )
   gameState.viewState = 'question'
