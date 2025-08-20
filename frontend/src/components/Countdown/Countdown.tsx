@@ -1,14 +1,45 @@
+import { useEffect, useRef } from 'react'
 import styles from './Countdown.module.css'
 
-type Props = { seconds: number; totalTime: number };
+type Props = { seconds: number; totalTime: number, useBeep?: boolean };
 
 const radius = 29
 const circumference = 2 * Math.PI * radius
+const timeRunningOutThreshold = 0.3
 
-export const Countdown = ({ seconds, totalTime }: Props) => {
+const playBeep = () => {
+  const ctx = new window.AudioContext()
+
+  const oscillator = ctx.createOscillator()
+  const gain = ctx.createGain()
+  oscillator.type = 'sine'
+  oscillator.frequency.value = 1200
+  gain.gain.value = 0.2
+  oscillator.connect(gain)
+  gain.connect(ctx.destination)
+  oscillator.start()
+  oscillator.stop(ctx.currentTime + 0.1)
+  oscillator.onended = () => ctx.close()
+}
+
+export const Countdown = ({ seconds, totalTime, useBeep }: Props) => {
   const progress = Math.max(0, Math.min(1, seconds / totalTime))
   const dashOffset = circumference * (1 - progress)
-  const fillColor = progress < 0.3 ? 'rgb(244,63,94)' : 'rgb(99,102,241)'
+  const fillColor = progress < timeRunningOutThreshold ? 'rgb(244,63,94)' : 'rgb(99,102,241)'
+
+  const prevSecondsRef = useRef<number>(seconds)
+
+  useEffect(() => {
+    if (!useBeep) {
+      return
+    }
+
+    if (progress <= timeRunningOutThreshold && seconds !== prevSecondsRef.current && seconds > 0) {
+      playBeep()
+    }
+    
+    prevSecondsRef.current = seconds
+  }, [useBeep, progress, seconds])
 
   return (
     <div className={styles.container}>
