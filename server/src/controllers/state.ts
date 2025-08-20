@@ -2,7 +2,7 @@ import type { GameState } from '../types.ts'
 
 export const ANSWER_PHASE_DURATION = 5
 
-export const INITIAL_QUESTION_PHASE_DURATION = 10
+export const INITIAL_QUESTION_PHASE_DURATION = 15
 export const INITIAL_NUMBER_OF_QUESTIONS = 10
 export const INITIAL_SELECTED_CATEGORY = ['General Knowledge: General']
 
