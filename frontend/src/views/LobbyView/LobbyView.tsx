@@ -33,9 +33,7 @@ export const LobbyView = (props: Props) => {
           (category) => category !== selectedValue,
         )
 
-        if (newCategories.length > 0) {
-          onChangeSettings({ selectedCategories: newCategories })
-        }
+        onChangeSettings({ selectedCategories: newCategories })
         return
       }
 
@@ -124,6 +122,12 @@ export const LobbyView = (props: Props) => {
           </div>
 
           <div className={styles.footer}>
+            {!settings.selectedCategories.length && (
+              <span className={styles.warning}>
+                Please select at least 1 category
+              </span>
+            )}
+
             {!isHost && (
               <span className={styles.warning}>
                 Only the host can start the game
@@ -133,7 +137,7 @@ export const LobbyView = (props: Props) => {
             <button
               onClick={onStartGame}
               className={styles.button}
-              disabled={!isHost}
+              disabled={!isHost || !settings.selectedCategories.length}
             >
               Start Game
             </button>
