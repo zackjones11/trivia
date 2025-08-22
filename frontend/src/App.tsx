@@ -124,6 +124,12 @@ export const App = () => {
   }
 
   if (gameState.viewState === 'end') {
-    return <EndView players={gameState.players} onRestart={restartGame} />
+    return (
+      <EndView
+        players={gameState.players}
+        onRestart={restartGame}
+        numberOfQuestions={gameState.settings.numberOfQuestions}
+      />
+    )
   }
 }

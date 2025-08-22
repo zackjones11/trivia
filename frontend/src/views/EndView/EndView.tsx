@@ -7,11 +7,12 @@ import styles from './EndView.module.css'
 import { RecapPopup } from './components'
 
 type Props = {
+  numberOfQuestions: number;
   players: Player[];
   onRestart: () => void;
 };
 
-export const EndView = ({ players, onRestart }: Props) => {
+export const EndView = ({ numberOfQuestions, players, onRestart }: Props) => {
   const [showRecap, setShowRecap] = useState<number>()
 
   const playersSorted = useMemo(
@@ -64,7 +65,9 @@ export const EndView = ({ players, onRestart }: Props) => {
                   {showRecap === index ? 'Hide' : 'Show'} recap
                 </button>
 
-                <span className={styles.score}>{score}/10</span>
+                <span className={styles.score}>
+                  {score}/${numberOfQuestions}
+                </span>
 
                 {showRecap === index && <RecapPopup />}
               </div>

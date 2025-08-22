@@ -35,7 +35,11 @@ export const QuestionView = (props: Props) => {
           </div>
 
           <div className={styles.countdownContainer}>
-            <Countdown seconds={timeRemaining} totalTime={phaseDuration} useBeep />
+            <Countdown
+              seconds={timeRemaining}
+              totalTime={phaseDuration}
+              useBeep
+            />
           </div>
         </div>
 
