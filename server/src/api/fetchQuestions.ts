@@ -15,9 +15,11 @@ type Response = {
 };
 
 const getPrompt = (numberOfQuestions: number, category: string) => {
-  return `Generate ${numberOfQuestions} multiple-choice and unique trivia questions about ${category}.
-    The questions should be of varying levels of difficulty and an equal distribution between the categories.
+  return `Imagine you are doing a quirky trivia pub quiz. Come up with ${numberOfQuestions} multiple-choice questions that are unique and interesting about ${category}.
+    The questions should be a mix of medium and hard difficulty but not easy and an equal distribution between the categories.
     Each question should have 4 answer options and clearly indicate the single correct answer.
+    Make sure that the correct answer is on a random position in the options. It should not be on the same position.
+
     Present the output in a structured JSON array of objects, where each object has:
 
     - "id": number (1, 2, 3, 4)
@@ -57,18 +59,8 @@ export const fetchQuestions = async (
   const text = getPrompt(numberOfQuestions, categories.join(', '))
 
   const requestBody = {
-    contents: [
-      {
-        parts: [
-          {
-            text,
-          },
-        ],
-      },
-    ],
-    generationConfig: {
-      responseMimeType: 'application/json',
-    },
+    contents: [ { parts: [ { text } ] } ],
+    generationConfig: { responseMimeType: 'application/json' },
   }
 
   const response = await fetch(API_ENDPOINT, {
