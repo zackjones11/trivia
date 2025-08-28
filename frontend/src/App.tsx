@@ -13,7 +13,7 @@ import {
 
 import './styles.css'
 
-const socket = io('http://localhost:3000')
+const socket = io()
 
 export const App = () => {
   const [gameState, setGameState] = useState<GameState>()
