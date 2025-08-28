@@ -15,6 +15,7 @@ export const JoinView = ({ onJoin }: Props) => (
         name="username"
         placeholder="Your name"
         required
+        autoComplete="off"
       />
       <input
         className={styles.button}

@@ -29,7 +29,7 @@ export type Timers = {
 export type GameState = {
   viewState: ViewState;
   players: Record<Player['id'], Player>;
-  answerSubmissions: Record<Player['id'], string>;
+  answerSubmissions: Record<Player['id'], string[]>;
   settings: Settings;
   questions: Question[];
   currentQuestionIndex: number;

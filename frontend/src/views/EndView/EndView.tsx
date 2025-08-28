@@ -1,18 +1,26 @@
 import { useCallback, useMemo, useState } from 'react'
 import { PlayerList } from '../../components'
 import { Layout } from '../../components'
-import type { Player } from '../../types'
+import type { AnswerSubmissions, Player, Question } from '../../types'
 
 import styles from './EndView.module.css'
 import { RecapPopup } from './components'
 
 type Props = {
   numberOfQuestions: number;
+  questions: Question[];
+  answerSubmissions: AnswerSubmissions;
   players: Player[];
   onRestart: () => void;
 };
 
-export const EndView = ({ numberOfQuestions, players, onRestart }: Props) => {
+export const EndView = ({
+  questions,
+  answerSubmissions,
+  numberOfQuestions,
+  players,
+  onRestart,
+}: Props) => {
   const [showRecap, setShowRecap] = useState<number>()
 
   const playersSorted = useMemo(
@@ -56,7 +64,7 @@ export const EndView = ({ numberOfQuestions, players, onRestart }: Props) => {
 
           <PlayerList
             players={playersSorted}
-            endContent={({ score }, index) => (
+            endContent={({ id, score }, index) => (
               <div className={styles.playerEndContent}>
                 <button
                   className={styles.recapButton}
@@ -66,10 +74,15 @@ export const EndView = ({ numberOfQuestions, players, onRestart }: Props) => {
                 </button>
 
                 <span className={styles.score}>
-                  {score}/${numberOfQuestions}
+                  {score}/{numberOfQuestions}
                 </span>
 
-                {showRecap === index && <RecapPopup />}
+                {showRecap === index && (
+                  <RecapPopup
+                    questions={questions}
+                    playerAnswers={answerSubmissions[id]}
+                  />
+                )}
               </div>
             )}
           />

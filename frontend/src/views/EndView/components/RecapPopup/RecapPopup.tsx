@@ -1,31 +1,26 @@
+import type { Question } from '../../../../types'
 import styles from './RecapPopup.module.css'
 
-export const RecapPopup = () => (
+export const RecapPopup = ({
+  questions,
+  playerAnswers,
+}: {
+  questions: Question[];
+  playerAnswers: string[];
+}) => (
   <div className={styles.container}>
-    <div className={styles.item}>
-      <div className={styles.count}>Q1</div>
-      <div className={styles.incorrect}>-</div>
-      <div className={styles.crossIcon}>✗</div>
-    </div>
-    <div className={styles.item}>
-      <div className={styles.count}>Q2</div>
-      <div className={styles.incorrect}>Ten</div>
-      <div className={styles.crossIcon}>✗</div>
-    </div>
-    <div className={styles.item}>
-      <div className={styles.count}>Q3</div>
-      <div className={styles.correct}>Richard Branson</div>
-      <div className={styles.checkIcon}>✓</div>
-    </div>
-    <div className={styles.item}>
-      <div className={styles.count}>Q4</div>
-      <div className={styles.correct}>A body pillow</div>
-      <div className={styles.checkIcon}>✓</div>
-    </div>
-    <div className={styles.item}>
-      <div className={styles.count}>Q5</div>
-      <div className={styles.correct}>India Pale Ale</div>
-      <div className={styles.checkIcon}>✓</div>
-    </div>
+    {questions.map((question, index) => (
+      <div className={styles.item}>
+        <div className={styles.count}>Q{index + 1}</div>
+        <div className={styles.incorrect}>{playerAnswers?.[index] ?? '-'}</div>
+        <div className={styles.crossIcon}>
+          {playerAnswers?.[index] === question.correctAnswer ? (
+            <div className={styles.checkIcon}>&#10003;</div>
+          ) : (
+            <div className={styles.crossIcon}>&#10008;</div>
+          )}
+        </div>
+      </div>
+    ))}
   </div>
 )

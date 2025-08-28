@@ -75,6 +75,9 @@ export const App = () => {
     })
   }, [])
 
+  const currentQuestion =
+    gameState?.questions?.[gameState.currentQuestionIndex]
+
   if (!gameState || gameState.viewState === 'loading') {
     return <Spinner />
   }
@@ -96,20 +99,24 @@ export const App = () => {
     )
   }
 
-  if (playerId && gameState.question && gameState.viewState === 'question') {
+  if (playerId && currentQuestion && gameState.viewState === 'question') {
     return (
       <QuestionView
         phaseDuration={gameState.settings.questionPhaseDuration}
         phaseStartAt={gameState.phaseStartAt}
-        question={gameState.question}
-        selectedAnswer={gameState.answerSubmissions[playerId]}
+        question={currentQuestion}
+        selectedAnswer={
+          gameState.answerSubmissions[playerId]?.[
+            gameState.currentQuestionIndex
+          ]
+        }
         numberOfQuestions={gameState.settings.numberOfQuestions}
         onSelectAnswer={selectAnswer}
       />
     )
   }
 
-  if (playerId && gameState.question && gameState.viewState === 'answer') {
+  if (playerId && currentQuestion && gameState.viewState === 'answer') {
     return (
       <AnswerView
         playerId={playerId}
@@ -117,7 +124,8 @@ export const App = () => {
         phaseStartAt={gameState.phaseStartAt}
         players={gameState.players}
         answerSubmissions={gameState.answerSubmissions}
-        question={gameState.question}
+        currentQuestionIndex={gameState.currentQuestionIndex}
+        question={currentQuestion}
         numberOfQuestions={gameState.settings.numberOfQuestions}
       />
     )
@@ -126,6 +134,8 @@ export const App = () => {
   if (gameState.viewState === 'end') {
     return (
       <EndView
+        questions={gameState.questions}
+        answerSubmissions={gameState.answerSubmissions}
         players={gameState.players}
         onRestart={restartGame}
         numberOfQuestions={gameState.settings.numberOfQuestions}

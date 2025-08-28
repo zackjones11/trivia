@@ -11,7 +11,7 @@ export const PlayerList = ({ players, endContent }: Props) => (
   <ul className={styles.list}>
     {players.map((player, index) => {
       return (
-        <li className={styles.item}>
+        <li key={player.id} className={styles.item}>
           <div className={styles.content}>
             <span className={styles.count}>{index + 1}</span>
             <div className={styles.avatar}>{player.username[0]}</div>

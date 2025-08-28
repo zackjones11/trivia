@@ -14,7 +14,7 @@ export type Question = {
   correctAnswer: string;
 };
 
-export type AnswerSubmissions = Record<Player['id'], string>;
+export type AnswerSubmissions = Record<Player['id'], string[]>;
 
 export type CategoryGroup = {
   label: string;
@@ -33,7 +33,8 @@ export type GameState = {
   players: Player[];
   answerSubmissions: AnswerSubmissions;
   settings: Settings;
-  question: Question | null;
+  currentQuestionIndex: number;
+  questions: Question[];
   phaseStartAt: number;
   categories: CategoryGroup[];
 };

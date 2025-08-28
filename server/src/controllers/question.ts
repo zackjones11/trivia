@@ -7,9 +7,8 @@ import type { GameState } from '../types.ts'
 
 export const sendQuestion = (io: Server, gameState: GameState) => {
   gameState.viewState = 'question'
-  gameState.answerSubmissions = {}
-  gameState.phaseStartAt = Date.now()
   gameState.currentQuestionIndex++
+  gameState.phaseStartAt = Date.now()
 
   broadcastGameStateChange(io, gameState)
 

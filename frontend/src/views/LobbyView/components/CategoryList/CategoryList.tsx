@@ -16,10 +16,11 @@ export const CategoryList = ({
 }: Props) => (
   <div className={styles.categoryList}>
     {categories.map((categoryGroup) => (
-      <div className="space-y-2">
+      <div className="space-y-2" key={categoryGroup.label}>
         <div className={styles.categoryGroup}>{categoryGroup.label}</div>
         {categoryGroup.subCategories.map((option) => (
           <button
+            key={option}
             onClick={onChange}
             value={option}
             className={classnames({

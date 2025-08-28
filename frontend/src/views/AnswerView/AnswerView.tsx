@@ -15,15 +15,22 @@ type Props = {
   phaseDuration: number;
   numberOfQuestions: number;
   answerSubmissions: AnswerSubmissions;
+  currentQuestionIndex: number;
 };
 
 export const AnswerView = (props: Props) => {
-  const { phaseDuration, phaseStartAt, players, question, answerSubmissions } =
-    props
+  const {
+    phaseDuration,
+    phaseStartAt,
+    players,
+    question,
+    currentQuestionIndex,
+    answerSubmissions,
+  } = props
 
   const usersAnswer = useMemo(
-    () => answerSubmissions[props.playerId],
-    [props.playerId, answerSubmissions],
+    () => answerSubmissions[props.playerId]?.[currentQuestionIndex],
+    [props.playerId, answerSubmissions, currentQuestionIndex],
   )
 
   const timeRemaining = useRemainingTime(phaseStartAt, phaseDuration)
@@ -46,6 +53,7 @@ export const AnswerView = (props: Props) => {
 
         <PlayersAnswers
           answerSubmissions={answerSubmissions}
+          currentQuestionIndex={currentQuestionIndex}
           players={players}
           correctAnswer={question.correctAnswer}
         />

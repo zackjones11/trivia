@@ -56,10 +56,25 @@ export const fetchQuestions = async (
   numberOfQuestions: number,
   categories: string[],
 ): Promise<Question[]> => {
+  return Promise.resolve([
+    {
+      id: 1,
+      title: 'What is the capital of England?',
+      options: ['Berlin', 'Madrid', 'Paris', 'London'],
+      correctAnswer: 'London',
+    },
+    {
+      id: 2,
+      title: 'What is the capital of Germany?',
+      options: ['Berlin', 'Madrid', 'Paris', 'London'],
+      correctAnswer: 'Berlin',
+    },
+  ])
+
   const text = getPrompt(numberOfQuestions, categories.join(', '))
 
   const requestBody = {
-    contents: [ { parts: [ { text } ] } ],
+    contents: [{ parts: [{ text }] }],
     generationConfig: { responseMimeType: 'application/json' },
   }
 

@@ -10,7 +10,11 @@ export const submitAnswer = (
   playerId: string,
   usersAnswer: string,
 ) => {
-  gameState.answerSubmissions[playerId] = usersAnswer
+  const answers = gameState.answerSubmissions[playerId] ?? []
+
+  answers[gameState.currentQuestionIndex] = usersAnswer
+
+  gameState.answerSubmissions[playerId] = answers
 }
 
 export const showAnswer = (io: Server, gameState: GameState) => {
@@ -19,7 +23,9 @@ export const showAnswer = (io: Server, gameState: GameState) => {
 
   const { correctAnswer } = gameState.questions[gameState.currentQuestionIndex]
 
-  for (const [id, answer] of Object.entries(gameState.answerSubmissions)) {
+  for (const [id, answers] of Object.entries(gameState.answerSubmissions)) {
+    const answer = answers[gameState.currentQuestionIndex]
+
     if (answer === correctAnswer) {
       gameState.players[id].score += 1
     }
