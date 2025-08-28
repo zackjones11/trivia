@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "@types/socket.io": "3.0.1"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.ts"
   }
 }
