@@ -14,6 +14,21 @@ type Props = {
   onRestart: () => void;
 };
 
+const gifs = [
+  'https://media.giphy.com/media/ely3apij36BJhoZ234/giphy.gif',
+  'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif',
+  'https://media4.giphy.com/media/lC69bczh51rZldSyA5/giphy.gif',
+  'https://media.giphy.com/media/mGK1g88HZRa2FlKGbz/giphy.gif',
+  'https://media.giphy.com/media/kAUtsLfsEfqaJRwe80/giphy.gif',
+  'https://media.giphy.com/media/fFd3HoAlKODowKQkwC/giphy.gif',
+  'https://media.giphy.com/media/vNr3DRaqTZ6mWYfXv0/giphy.gif',
+  'https://media.giphy.com/media/VEsfbW0pBu145PPhOi/giphy.gif',
+  'https://media.giphy.com/media/gkpnGTiy8Sq08/giphy.gif',
+  'https://media.giphy.com/media/huyVJYSKcArLiu8J5g/giphy.gif',
+  'https://media.giphy.com/media/NEvPzZ8bd1V4Y/giphy.gif',
+  'https://media1.giphy.com/media/Ju7l5y9osyymQ/giphy.gif'
+]
+
 export const EndView = ({
   questions,
   answerSubmissions,
@@ -40,6 +55,11 @@ export const EndView = ({
     [showRecap],
   )
 
+  const randomGif = useMemo(
+    () => gifs[Math.floor(Math.random() * gifs.length)],
+    [gifs],
+  )
+
   return (
     <Layout>
       <header className={styles.header}>
@@ -52,11 +72,7 @@ export const EndView = ({
         <div className={styles.left}>
           <div className={styles.headline}>Winner</div>
           <span>👑 {playersSorted[0].username}</span>
-          <img
-            src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif"
-            alt="celebration"
-            className={styles.gif}
-          />
+          <img src={randomGif} alt="celebration" className={styles.gif} />
         </div>
 
         <div className={styles.right}>
