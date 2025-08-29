@@ -83,6 +83,9 @@ export const App = () => {
   }
 
   if (!username) {
+    if (gameState.viewState !== 'lobby') {
+      return <p>Game in progress - please wait for a new game</p>
+    }
     return <JoinView onJoin={joinGame} />
   }
 
@@ -105,6 +108,7 @@ export const App = () => {
         phaseDuration={gameState.settings.questionPhaseDuration}
         phaseStartAt={gameState.phaseStartAt}
         question={currentQuestion}
+        currentQuestionIndex={gameState.currentQuestionIndex}
         selectedAnswer={
           gameState.answerSubmissions[playerId]?.[
             gameState.currentQuestionIndex
