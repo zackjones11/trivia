@@ -8,7 +8,6 @@ export type Player = {
 export type ViewState = 'loading' | 'lobby' | 'question' | 'answer' | 'end';
 
 export type Question = {
-  id: string;
   title: string;
   options: string[];
   correctAnswer: string;

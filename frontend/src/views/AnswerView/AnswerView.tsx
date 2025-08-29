@@ -40,7 +40,7 @@ export const AnswerView = (props: Props) => {
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
-            Question {question.id} / {props.numberOfQuestions}
+            Question {currentQuestionIndex + 1} / {props.numberOfQuestions}
           </div>
           <div className={styles.countdownContainer}>
             <Countdown seconds={timeRemaining} totalTime={phaseDuration} />

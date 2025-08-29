@@ -15,37 +15,46 @@ type Response = {
 };
 
 const getPrompt = (numberOfQuestions: number, category: string) => {
-  return `Imagine you are doing a quirky trivia pub quiz. Come up with ${numberOfQuestions} multiple-choice questions that are unique and interesting about ${category}.
-    The questions should be a mix of medium and hard difficulty but not easy and an equal distribution between the categories.
-    Each question should have 4 answer options and clearly indicate the single correct answer.
-    Make sure that the correct answer is on a random position in the options. It should not be on the same position.
+  return `You are a trivia game API. Your task is to generate a set of ${numberOfQuestions} unique and interesting multiple-choice questions for a quirky pub quiz, covering the following categories: ${category}.
 
-    Present the output in a structured JSON array of objects, where each object has:
+The questions must adhere to the following strict rules:
+  
+1.  **Number of Questions:** Exactly ${numberOfQuestions} questions must be generated.
+2.  **Difficulty:** The difficulty of the questions should be a mix of medium and hard. Do not include easy questions.
+3.  **Category Distribution:** Ensure an equal distribution of questions across the provided categories.
+4.  **Answer Options:** Each question must have exactly four (4) answer options.
+5.  **Single Correct Answer:** There must be only one correct answer per question.
+6.  **Factual Accuracy:** All questions and their corresponding correct answers must be 100% factually correct.
+7.  **Answer Randomization:** The correct answer's position within the \`options\` array must be random for each question. The correct answer should not appear in the same position (e.g., always the last option) for more than one question.
+8.  **Time Specificity:** If a question relates to a specific historical event or period, the exact year or a clear date range must be included in the question's \`title\`. For example, "In 1977, which city..." or "During the Cold War, which country...".
+9.  **Output Format:** The response must be a single, valid JSON array of objects. Do not include any other text, explanations, or code formatting outside of the JSON.
 
-    - "id": number (1, 2, 3, 4)
-    - "title": string ("What is the capital of England?")
-    - "options": array with string values ([ "Berlin", "Madrid", "Paris", "London" ])
-    - "correctAnswer": the correct option value ("London")
+Each JSON object in the array must contain the following keys and value types:
 
-    Example structure for one question:
-    {
-      "id": 1,
-      "title": "What is the capital of England?",
-      "options": [ "Berlin", "Madrid", "Paris", "London" ],
-      "correctAnswer": "London"
-    }`
+-   \`title\`: A string containing the full question text.
+-   \`options\`: An array of four strings representing the multiple-choice options.
+-   \`correctAnswer\`: A string that matches one of the values in the \`options\` array, representing the single correct answer.
+
+Example of the desired JSON structure for a single question:
+
+\`\`\`json
+{
+  "title": "Which planet is known as the 'Red Planet'?",
+  "options": ["Jupiter", "Mars", "Venus", "Saturn"],
+  "correctAnswer": "Mars"
+}
+\`\`\`
+`
 }
 
 // Mock data:
 // return Promise.resolve([
 //   {
-//     id: 1,
 //     title: 'What is the capital of England?',
 //     options: ['Berlin', 'Madrid', 'Paris', 'London'],
 //     correctAnswer: 'London',
 //   },
 //   {
-//     id: 2,
 //     title: 'What is the capital of Germany?',
 //     options: ['Berlin', 'Madrid', 'Paris', 'London'],
 //     correctAnswer: 'Berlin',

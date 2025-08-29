@@ -15,7 +15,6 @@ type Settings = {
 };
 
 export type Question = {
-  id: number;
   title: string;
   options: string[];
   correctAnswer: string;

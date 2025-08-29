@@ -9,6 +9,7 @@ type Props = {
   numberOfQuestions: number;
   phaseDuration: number;
   phaseStartAt: number;
+  currentQuestionIndex: number;
   selectedAnswer: string | undefined;
   onSelectAnswer: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -21,6 +22,7 @@ export const QuestionView = (props: Props) => {
     phaseDuration,
     phaseStartAt,
     selectedAnswer,
+    currentQuestionIndex,
     onSelectAnswer,
   } = props
 
@@ -31,7 +33,7 @@ export const QuestionView = (props: Props) => {
       <div className={styles.box}>
         <div className={styles.header}>
           <div className={styles.questionNumber}>
-            Question {question.id} / {props.numberOfQuestions}
+            Question {currentQuestionIndex + 1} / {props.numberOfQuestions}
           </div>
 
           <div className={styles.countdownContainer}>
