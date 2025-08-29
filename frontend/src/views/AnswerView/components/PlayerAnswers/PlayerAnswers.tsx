@@ -1,4 +1,3 @@
-import React from 'react'
 import type { AnswerSubmissions, Player } from '../../../../types'
 
 import styles from './PlayerAnswers.module.css'
@@ -38,20 +37,18 @@ export const PlayersAnswers = ({
     <div className={styles.container}>
       <div className={styles.headline}>Players' answers</div>
       <ul className={styles.list}>
-        <li className={styles.item}>
-          {players.map((player) => (
-            <React.Fragment key={player.id}>
-              <AnswerIcon
-                correctAnswer={correctAnswer}
-                usersAnswer={
-                  answerSubmissions[player.id]?.[currentQuestionIndex]
-                }
-              />
+        {players.map((player) => (
+          <li className={styles.item} key={player.id}>
+            <AnswerIcon
+              correctAnswer={correctAnswer}
+              usersAnswer={
+                answerSubmissions[player.id]?.[currentQuestionIndex]
+              }
+            />
 
-              <span className={styles.username}>{player.username}</span>
-            </React.Fragment>
-          ))}
-        </li>
+            <span className={styles.username}>{player.username}</span>
+          </li>
+        ))}
       </ul>
     </div>
   )

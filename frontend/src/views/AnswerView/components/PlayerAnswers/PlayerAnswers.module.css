@@ -12,15 +12,8 @@
 }
 
 .list {
-  @apply grid;
-  @apply sm:grid-cols-2;
-  @apply gap-1;
-}
-
-.item {
   @apply flex;
-  @apply items-center;
-  @apply gap-2;
+  @apply gap-5;
 }
 
 .hyphen {
@@ -55,4 +48,5 @@
 
 .username {
   @apply text-gray-300;
+  @apply ml-2;
 }
