@@ -15,6 +15,7 @@ export const removePlayer = (gameState: GameState, { id }: { id: string }) => {
   const wasHost = gameState.players[id].isHost
 
   delete gameState.players[id]
+  delete gameState.answerSubmissions[id]
 
   if (wasHost) {
     const remainingPlayerIds = Object.keys(gameState.players)
