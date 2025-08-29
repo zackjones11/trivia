@@ -20,7 +20,15 @@
   @apply bg-gray-900;
   @apply text-gray-200;
   @apply border-gray-800;
+}
+
+.button:not(:disabled) {
   @apply hover:bg-gray-800;
+}
+
+.button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 .buttonSelected {

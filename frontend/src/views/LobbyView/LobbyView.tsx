@@ -108,6 +108,7 @@ export const LobbyView = (props: Props) => {
                 items={[5, 10, 15, 20]}
                 selected={settings.numberOfQuestions}
                 onChange={handleChangeNumberOfQuestions}
+                disabled={!isHost}
               />
 
               <div className={styles.stepHeadline}>Step 3</div>
@@ -117,6 +118,7 @@ export const LobbyView = (props: Props) => {
                 items={[10, 15, 20]}
                 selected={settings.questionPhaseDuration}
                 onChange={handleChangeDuration}
+                disabled={!isHost}
               />
             </div>
           </div>
