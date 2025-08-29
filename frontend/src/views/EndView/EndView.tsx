@@ -26,7 +26,7 @@ const gifs = [
   'https://media.giphy.com/media/gkpnGTiy8Sq08/giphy.gif',
   'https://media.giphy.com/media/huyVJYSKcArLiu8J5g/giphy.gif',
   'https://media.giphy.com/media/NEvPzZ8bd1V4Y/giphy.gif',
-  'https://media1.giphy.com/media/Ju7l5y9osyymQ/giphy.gif'
+  'https://media1.giphy.com/media/Ju7l5y9osyymQ/giphy.gif',
 ]
 
 export const EndView = ({
@@ -57,7 +57,7 @@ export const EndView = ({
 
   const randomGif = useMemo(
     () => gifs[Math.floor(Math.random() * gifs.length)],
-    [gifs],
+    [],
   )
 
   return (

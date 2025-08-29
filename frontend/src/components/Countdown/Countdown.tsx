@@ -5,16 +5,16 @@ type Props = { seconds: number; totalTime: number; useBeep?: boolean };
 
 const radius = 29
 const circumference = 2 * Math.PI * radius
-const timeRunningOutThreshold = 0.3
+const timeRunningOutThreshold = 0.35
 
-const playBeep = () => {
+const playBeep = ({ frequencyValue }: { frequencyValue: number }) => {
   const ctx = new window.AudioContext()
 
   const oscillator = ctx.createOscillator()
   const gain = ctx.createGain()
   oscillator.type = 'sine'
-  oscillator.frequency.value = 1200
-  gain.gain.value = 0.2
+  oscillator.frequency.value = frequencyValue
+  gain.gain.value = 0.3
   oscillator.connect(gain)
   gain.connect(ctx.destination)
   oscillator.start()
@@ -40,7 +40,7 @@ export const Countdown = ({ seconds, totalTime, useBeep }: Props) => {
       seconds !== prevSecondsRef.current &&
       seconds > 0
     ) {
-      playBeep()
+      playBeep({ frequencyValue: seconds === 1 ? 800 : 1200 })
     }
 
     prevSecondsRef.current = seconds
