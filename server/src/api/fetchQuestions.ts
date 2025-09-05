@@ -25,9 +25,8 @@ The questions must adhere to the following strict rules:
 4.  **Answer Options:** Each question must have exactly four (4) answer options.
 5.  **Single Correct Answer:** There must be only one correct answer per question.
 6.  **Factual Accuracy:** All questions and their corresponding correct answers must be 100% factually correct.
-7.  **Answer Randomization:** The correct answer's position within the \`options\` array must be random for each question. The correct answer should not appear in the same position (e.g., always the last option) for more than one question.
-8.  **Time Specificity:** If a question relates to a specific historical event or period, the exact year or a clear date range must be included in the question's \`title\`. For example, "In 1977, which city..." or "During the Cold War, which country...".
-9.  **Output Format:** The response must be a single, valid JSON array of objects. Do not include any other text, explanations, or code formatting outside of the JSON.
+7.  **Time Specificity:** If a question relates to a specific historical event or period, the exact year or a clear date range must be included in the question's \`title\`. For example, "In 1977, which city..." or "During the Cold War, which country...".
+8.  **Output Format:** The response must be a single, valid JSON array of objects. Do not include any other text, explanations, or code formatting outside of the JSON.
 
 Each JSON object in the array must contain the following keys and value types:
 
@@ -89,6 +88,12 @@ export const fetchQuestions = async (
   }
 
   const data = (await response.json()) as Response
+  const questions = JSON.parse(
+    data.candidates[0].content.parts[0].text,
+  ) as Question[]
 
-  return JSON.parse(data.candidates[0].content.parts[0].text)
+  return questions.reduce<Question[]>((acc, curr) => {
+    const options = curr.options.sort(() => 0.5 - Math.random())
+    return [...acc, { ...curr, options }]
+  }, [])
 }
